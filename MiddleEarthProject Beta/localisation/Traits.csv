@@ -63,3 +63,7 @@ story_amroth;The Journey of Amroth and Nimrodel;Le Voyage d'Amroth et Nimrodel;;
 story_amroth_desc;Amroth and Nimrodel have left Lorien, and opened a path that will lead to their loss, or to their happiness.;Amroth et Nimrodel ont quittés la Lorien, et entamés un chemin qui les mènera à leurs pertes, ou à leur bonheur.;;;;;;;;;;;;;x
 spiritform;Spirit Form;Esprit non incarné;;;;;;;;;;;;;x
 spiritform_desc;This character lost his material form after the One Ring was cut from his finger at the Battle of the Last Alliance. If he regains this ring, he will be able to return to his full strength.;Ce personnage a perdu sa forme corporelle lorsque l'Anneau Unique a été coupé de sa main, durant la Bataille de la Dernière Alliance. S'il retrouve l'Anneau, il sera alors capable de retrouver sa pleine puissance, et sa forme perdue.;;;;;;;;;;;;;x
+adventuring;Adventuring;;;;;;;;;;;;;x
+adventuring_desc;This character is away from court adventuring, and thus needs a regent.;;;;;;;;;;;;;x
+on_current_quest;On a Current Quest;;;;;;;;;;;;;x
+on_current_quest_desc;This character is on a current quest, bravely adventuring where no man has gone before.;;;;;;;;;;;;;x

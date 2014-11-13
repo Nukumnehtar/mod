@@ -1,0 +1,100 @@
+decisions = {
+
+	open_adventuring_menu={
+
+		potential = {
+			OR = {
+				ai = yes
+				has_character_flag = special_decisions_open
+			}
+			age = 16
+			AND = {
+				OR = {
+					trait = squire
+					trait = good_rider
+					trait = great_rider
+					trait = horse_master
+					trait = amroth_squire
+					trait = amroth_knight
+					trait = ithilien_ranger
+					trait = ithilien_captain
+					trait = weak_orc
+					trait = orc_warrior
+					trait = strong_orc
+					trait = great_orc
+					trait = pacifist_elf
+					trait = trained_elf
+					trait = great_elf
+					trait = legendary_warrior
+					trait = mumakil_raiser
+					trait = mumakil_groom
+					trait = mumakil_rider
+					trait = mumakil_commander
+					trait = dwarf_warrior
+					trait = trained_dwarf
+					trait = great_axeman
+					trait = dragon_slayer
+					trait = dunedain_scout
+					trait = dunedain_ranger
+					trait = dunedain_captain
+					trait = grey_member
+					trait = bowman
+					trait = skilled_bowman
+					trait = great_bowman
+					trait = master_bowman
+				}
+			}
+		}
+
+		allow = {
+			NOT = { trait = maimed }
+			OR = {
+				trait = squire
+				trait = good_rider
+				trait = great_rider
+				trait = horse_master
+				trait = amroth_squire
+				trait = amroth_knight
+				trait = ithilien_ranger
+				trait = ithilien_captain
+				trait = weak_orc
+				trait = orc_warrior
+				trait = strong_orc
+				trait = great_orc
+				trait = pacifist_elf
+				trait = trained_elf
+				trait = great_elf
+				trait = legendary_warrior
+				trait = mumakil_raiser
+				trait = mumakil_groom
+				trait = mumakil_rider
+				trait = mumakil_commander
+				trait = dwarf_warrior
+				trait = trained_dwarf
+				trait = great_axeman
+				trait = dragon_slayer
+				trait = dunedain_scout
+				trait = dunedain_ranger
+				trait = dunedain_captain
+				trait = grey_member
+				trait = bowman
+				trait = skilled_bowman
+				trait = great_bowman
+				trait = master_bowman
+				AND = {
+					age = 16
+				}
+			}
+		}
+
+		effect = {
+			ROOT = { character_event = { id = adventuremenu.0 } }
+		}
+		
+		ai_will_do = {
+			factor = 0	
+		}
+		
+	}
+	
+}

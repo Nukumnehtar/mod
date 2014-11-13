@@ -954,4 +954,8 @@ spriteTypes = {
 		name = "GFX_erebor_craft_decision"
 		texturefile = "gfx\\interface\\decision_forge_weapon.dds"
 	}
+	spriteType = {
+		name = "GFX_open_adventuring_menu"
+		texturefile = "gfx\\interface\\decision_icon_adventuring_menu.dds"
+	}
 }

@@ -426,3 +426,61 @@ title_matriarch = {
     
     message = no
 }
+
+title_adventurer = {
+	dignity = 0.1
+	grant_limit = 9
+	show_as_title = yes
+	realm_in_name = yes
+	monthly_prestige = 0.01
+	
+	allow = {
+		OR = {
+			father = { ai = no }
+			mother = { ai = no }
+		}
+		OR = {
+			trait = squire
+			trait = good_rider
+			trait = great_rider
+			trait = horse_master
+			trait = amroth_squire
+			trait = amroth_knight
+			trait = ithilien_ranger
+			trait = ithilien_captain
+			trait = weak_orc
+			trait = orc_warrior
+			trait = strong_orc
+			trait = great_orc
+			trait = pacifist_elf
+			trait = trained_elf
+			trait = great_elf
+			trait = legendary_warrior
+			trait = mumakil_raiser
+			trait = mumakil_groom
+			trait = mumakil_rider
+			trait = mumakil_commander
+			trait = dwarf_warrior
+			trait = trained_dwarf
+			trait = great_axeman
+			trait = dragon_slayer
+			trait = dunedain_scout
+			trait = dunedain_ranger
+			trait = dunedain_captain
+			trait = grey_member
+			trait = bowman
+			trait = skilled_bowman
+			trait = great_bowman
+			trait = master_bowman
+		}
+		age = 15
+		is_landed = no
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}

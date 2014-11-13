@@ -1,0 +1,4181 @@
+namespace = adventurer
+
+
+####################
+##LOW LEVEL EVENTS/QUESTS WITH RULERS##
+####################
+
+###############################
+####Necromancer quest##########
+###############################
+	#NECROMANCER appear#
+	character_event = {
+    id = adventurer.0
+    title = "Necromancer"
+    desc = "You are informed that a necromancer lives deep beneath your city's sewers, and is raising an army of undead from amongst the plague victims. The citizens are in a panic and this threat must be dealt with."
+    picture = "GFX_evt_plague_doctor"
+	
+	trigger={
+    NOT = { has_character_flag = adventurer0 }
+	OR = {
+	religion = Haelyn
+	religion = Sera
+	religion = Avani
+	religion = Erik
+	}
+	OR = {
+	tier = DUKE
+	tier = KING
+	tier = EMPEROR
+	tier = COUNT
+	}
+	any_demesne_province = {
+	has_province_modifier = death_plague
+	}
+	}
+	
+	mean_time_to_happen = {
+	years = 10
+	}
+	
+	option = {
+	name = "Sewers, they say? Better hire an adventurer from these parts..."
+	any_playable_ruler = {
+	random_courtier = {
+	limit = {
+	AND = {
+	culture = ROOT
+	trait = adventuring
+	NOT = { trait = on_current_quest }
+	prisoner = no
+	}
+	}
+	character_event = { id = adventurer.1 days = 7 }
+	}
+	}
+	}
+	
+	option = {
+	name = "Sewers, they say? Hire anyone, don't care from where."
+	any_playable_ruler = {
+	random_courtier = {
+	limit = {
+	AND = {
+	trait = adventuring
+	NOT = { trait = on_current_quest }
+	prisoner = no
+	}
+	}
+	character_event = { id = adventurer.1 days = 7 }
+	}
+	}
+	}
+
+	option = {
+	name = "I'm too far away. Have my chancellor hire someone nearby."
+	trigger = { trait = adventuring }
+	any_playable_ruler = {
+	random_courtier = {
+	limit = {
+	AND = {
+	trait = adventuring
+	NOT = { trait = on_current_quest }
+	prisoner = no
+	}
+	}
+	character_event = { id = adventurer.1 days = 7 }
+	}
+	}
+	}
+	
+	option = {
+	name = "Bah - I'm too busy for this nonsense!"
+	trigger = { ai = no }
+	character_event = { id = adventurer.2 days = 30 }
+	}
+	
+	}
+	
+	#adventurer is informed#
+	character_event = {
+    id = adventurer.1
+    title = "Necromancer"
+    desc = "A message arrives from a ruler, asking if you would help his land defeat a necromancer re-animating plague victims and building an army. He will pay 10 gold. What do you say?."
+    picture = "GFX_evt_plague_doctor"
+	
+	is_triggered_only = yes
+	
+	option = { 
+	name = "Of course - we're on our way."
+	add_trait = on_current_quest
+	FROM = { character_event = { id = adventurer.3 days = 7 } }
+	}
+	
+	option = {
+	name = "No, killing undead is disgusting work..."
+	}
+	
+	}
+	
+	#the necromancer terrorises the province for a while#
+	character_event = {
+    id = adventurer.2
+    title = "Necromancer"
+    desc = "The necromancer has raised hundreds of undead now, and you have no choice but to act now. Will you send in the city guard, or call for an adventurer to deal with it?"
+    picture = "GFX_evt_plague_doctor"
+	
+	is_triggered_only = yes
+	
+	option = {
+	name = "Better hire an adventurer from these parts..."
+	any_playable_ruler = {
+	random_courtier = {
+	limit = {
+	AND = {
+	culture = ROOT
+	trait = adventuring
+	NOT = { trait = on_current_quest }
+	}
+	}
+	character_event = { id = adventurer.1 days = 7 }
+	}
+	}
+	}
+	
+	option = {
+	name = "Hire anyone, don't care from where."
+	any_playable_ruler = {
+	random_courtier = {
+	limit = {
+	AND = {
+	trait = adventuring
+	NOT = { trait = on_current_quest }
+	}
+	}
+	character_event = { id = adventurer.1 days = 7 }
+	}
+	}
+	}
+
+	option = {
+	name = "Have my chancellor hire someone nearby."
+	trigger = { trait = adventuring }
+	any_playable_ruler = {
+	random_courtier = {
+	limit = {
+	AND = {
+	trait = adventuring
+	NOT = { trait = on_current_quest }
+	}
+	}
+	character_event = { id = adventurer.1 days = 7 }
+	}
+	}
+	}
+		
+	option = {
+	name = "Send in the troops!"
+	random_demesne_province = {
+	add_province_modifier = { name = fighting_undead days = 700 }
+	}
+	}
+	
+	}
+	
+	#adventurer arrives to court of ruler with the problem#
+	character_event = {
+    id = adventurer.3
+    title = "Adventurer"
+    desc = "The adventuring party arrives and is quickly briefed on the situation. For 10 gold, they will go into the sewers and attempt to defeat this necromancer before he can summon an army of undead against you."
+    picture = "GFX_evt_council"
+	
+	is_triggered_only = yes
+	
+	option = {
+	name = "Very well, go forth then and slay this monster."
+	FROM = { character_event = { id = adventurer.4 days = 1 } }
+	}
+	
+	option = {
+	name = "No, that is too much. Show them the door."
+	}
+	
+	}
+	
+	#adventurer sets off to the sewers#
+	character_event = {
+    id = adventurer.4
+    title = "Adventurer"
+    desc = "You reach your destination. Fighting through dozens of undead beneath the city sewers, you finally come to the necromancer's lair - it is well guarded, and your small party is already tired. Yet you cannot rest, you must press on!"
+    picture = "GFX_evt_plague_doctor"
+	
+	is_triggered_only = yes
+	
+	option = {
+	name = "Charge!"
+	if = {
+	    limit = {
+        OR = {
+trait = amateur_bard 
+trait = novice_bard 
+trait = trained_bard 
+trait = amateur_mage 
+trait = novice_mage
+trait = trained_mage
+trait = amateur_priest
+trait = novice_priest
+trait = trained_priest
+trait = amateur_ranger
+trait = novice_ranger
+trait = trained_ranger
+trait = amateur_rogue
+trait = novice_rogue
+trait = trained_rogue
+trait = amateur_fighter
+trait = novice_fighter
+trait = trained_fighter
+trait = amateur_sorcerer
+trait = novice_sorcerer
+trait = trained_sorcerer
+                }
+				}
+	random_list = {
+    80 = { character_event = { id = adventurer.5  } }
+	20 = { character_event = { id = adventurer.6  } }
+	}
+	}
+	if = {
+	    limit = {
+                    OR = {
+trait = master_bard 
+trait = legendary_bard 
+trait = master_mage
+trait = legendary_mage
+trait = master_priest
+trait = legendary_priest
+trait = master_ranger
+trait = legendary_ranger
+trait = master_rogue
+trait = legendary_rogue
+trait = master_fighter
+trait = legendary_fighter
+trait = master_sorcerer
+trait = legendary_sorcerer 
+                }
+				}
+	character_event = { id = adventurer.6  }
+	}
+	}
+	
+	}
+	
+	#suceesful against necromancer#
+	character_event = {
+    id = adventurer.5
+    title = "Adventurer"
+    desc = "You bravely charge ahead, and just as it seems you are about to be overwhelmed by hordes of undead, you strike down the necromancer and his minions fall lifeless to the ground."
+    picture = "GFX_evt_plague_doctor"
+	
+	is_triggered_only = yes
+	
+	option = {
+	name = "Victory!"
+	wealth = 5
+	FROMFROM = { character_event = { id = adventurer.7 days = 7 } }
+	if = {
+	limit = { trait = amateur_fighter }
+random = {
+	chance = 50
+	remove_trait = amateur_fighter
+	add_trait = novice_fighter
+	}
+	}
+	if = {
+	limit = { trait = novice_fighter }
+random = {
+	chance = 20
+	remove_trait = novice_fighter
+	add_trait = trained_fighter
+	}
+	}
+	if = {
+	limit = { trait = amateur_rogue }
+random = {
+	chance = 50
+	remove_trait = amateur_rogue
+	add_trait = novice_rogue
+	}
+	}
+	if = {
+	limit = { trait = novice_rogue }
+random = {
+	chance = 20
+	remove_trait = novice_rogue
+	add_trait = trained_rogue
+	}
+	}
+	if = {
+	limit = { trait = amateur_sorcerer }
+random = {
+	chance = 50
+	remove_trait = amateur_sorcerer
+	add_trait = novice_sorcerer
+	}
+	}
+	if = {
+	limit = { trait = novice_sorcerer }
+random = {
+	chance = 20
+	remove_trait = novice_sorcerer
+	add_trait = trained_sorcerer
+	}
+	}
+	if = {
+	limit = { trait = amateur_priest }
+random = {
+	chance = 50
+	remove_trait = amateur_priest
+	add_trait = novice_priest
+	}
+	}
+	if = {
+	limit = { trait = novice_priest }
+random = {
+	chance = 20
+	remove_trait = novice_priest
+	add_trait = trained_priest
+	}
+	}
+	if = {
+	limit = { trait = amateur_ranger }
+random = {
+	chance = 50
+	remove_trait = amateur_ranger
+	add_trait = novice_ranger
+	}
+	}
+	if = {
+	limit = { trait = novice_ranger }
+random = {
+	chance = 20
+	remove_trait = novice_ranger
+	add_trait = trained_ranger
+	}
+	}	
+	if = {
+	limit = { trait = amateur_ranger }
+random = {
+	chance = 50
+	remove_trait = amateur_bard
+	add_trait = novice_bard
+	}
+	}
+	if = {
+	limit = { trait = novice_bard }
+random = {
+	chance = 20
+	remove_trait = novice_bard
+	add_trait = trained_bard
+	}
+	}	
+	}
+	
+	}
+	
+	#defeated by necromancer#
+	character_event = {
+    id = adventurer.6
+    title = "Adventurer"
+    desc = "You bravely charge ahead, but you are overwhelmed by undead - you cannot get close enough to slay the necromancer, and you find yourself surrounded and overwhelmed! The last thing you remember are sharp claws dragging you down."
+    picture = "GFX_evt_plague_doctor"
+	
+	is_triggered_only = yes
+	
+	option = {
+	name = "Noooo!"
+	random_list = {
+	40 = { 
+	add_trait = wounded 
+	character_event = { id = adventurer.8 }
+	}
+	20 = { 
+	add_trait = maimed 
+	character_event = { id = adventurer.8 }	
+	}
+	10 = {   death = {
+		death_reason = death_battle
+				}
+				}
+	30 = { 
+	add_trait = wounded
+	remove_trait = adventuring
+	remove_trait = on_current_quest
+	random_independent_ruler = {
+	limit = { 
+	is_landed = yes
+	OR = {
+	tier = DUKE
+	tier = KING
+	tier = EMPEROR
+	}
+	OR = {
+	religion = Azrai
+	religion = GoblinPantheon
+	religion = OrogPantheon
+	religion = Outlaw
+	religion = Serpent
+	religion = Lahmia
+	trait = awn_succubus
+	}
+	}
+	character_event = { id = random.12 }
+	}
+	}				
+				}
+				}
+				
+				}
+				
+	#adventurer arrives to court of ruler with the problem#
+	character_event = {
+    id = adventurer.7
+    title = "Adventurer"
+    desc = "The adventuring party arrives back safely, having defeated the necromancer. Your city is safe, and they are hailed as heroes."
+    picture = "GFX_evt_feast"
+	
+	is_triggered_only = yes
+	
+	option = {
+	name = "Pay them, and throw a feast in their honor!"
+	wealth = -10
+	FROM = { character_event = { id = adventurer.9 } }
+		reverse_opinion = {
+			modifier = opinion_adventuring_ally
+			who = FROM
+			years = 40
+		}
+	}
+	
+	option = {
+	name = "I refuse to pay. Send them off!"
+	trigger = {
+	OR = {
+	trait = greedy
+	trait = cruel
+	trait = lunatic
+	}
+	}
+		reverse_opinion = {
+			modifier = opinion_adventuring_foe
+			who = FROM
+			years = 40
+		}
+	FROM = { character_event = { id = adventurer.10 } }
+	}
+	}
+	
+	#defeated by necromancer#
+	character_event = {
+    id = adventurer.8
+    title = "Defeat!"
+    desc = "By some miracle, your companions manage to save you and drag you out of the sewers. You are grievously wounded, however, and your quest has failed..."
+    picture = "GFX_evt_illness"
+	
+	is_triggered_only = yes
+	
+	option = {
+	name = "Send for... a healer..."
+	remove_trait = on_current_quest
+	FROMFROM = { character_event = { id = adventurer.11 days = 7 } }
+	}
+	
+	}
+	
+		#adventurers are treated as heroes on the victorious return#
+	character_event = {
+    id = adventurer.9
+    title = "Adventurer"
+    desc = "You return triumphant, and a great feast is held in your honor. You are duly paid, and the next morning, you set off for new adventures."
+    picture = "GFX_evt_feast"
+	
+	is_triggered_only = yes
+	
+	option = {
+	name = "Adventure awaits!"
+	remove_trait = on_current_quest
+	wealth = 10
+		reverse_opinion = {
+			modifier = opinion_adventuring_ally
+			who = FROM
+			years = 40
+		}	
+	}
+	
+	}
+	
+		#adventurers are treated as lepers on the victorious return#
+	character_event = {
+    id = adventurer.10
+    title = "Adventurer"
+    desc = "You return triumphant, only to find the gates of the castle barred to you. 'Begone ruffians, the ruler shouts from the walls - or I'll have you arrested for vagrancy!' "
+    picture = "GFX_evt_lunatic"
+	
+	is_triggered_only = yes
+	
+	option = {
+	name = "That bastard! I won't forget this..."
+	remove_trait = on_current_quest
+		reverse_opinion = {
+			modifier = opinion_adventuring_foe
+			who = FROM
+			years = 40
+		}	
+	}
+	
+	}
+	
+	#ruler is informed that they have failed#
+	character_event = {
+    id = adventurer.11
+    title = "Adventurers Fail"
+    desc = "The adventurers have failed, and are either dead, wounded, or captured now. What should be done? "
+    picture = "GFX_evt_plague_doctor"
+	
+	is_triggered_only = yes
+	
+	
+	option = {
+	name = "Hire someone new from these parts..."
+	any_playable_ruler = {
+	random_courtier = {
+	limit = {
+	AND = {
+	culture = ROOT
+	trait = adventuring
+	NOT = { trait = on_current_quest }
+	}
+	}
+	character_event = { id = adventurer.1 days = 7 }
+	}
+	}
+	}
+	
+	option = {
+	name = "Hire someone new, don't care from where."
+	any_playable_ruler = {
+	random_courtier = {
+	limit = {
+	AND = {
+	trait = adventuring
+	NOT = { trait = on_current_quest }
+	}
+	}
+	character_event = { id = adventurer.1 days = 7 }
+	}
+	}
+	}
+
+	
+	option = {
+	name = "Bah - I'm too busy for this nonsense!"
+	trigger = { ai = no }
+	character_event = { id = adventurer.2 days = 30 }
+	}
+	
+	}
+	
+	
+	#####################################
+	##Low Level Dungeon Events###########
+	#####################################
+	
+	##troll lair quest##
+	character_event = {
+		id = adventurer.13
+		title = EVTTITadventurer.13
+		desc = EVTDESCadventurer.13
+		picture = "GFX_evt_bandits"	
+	
+		trigger = {
+			AND = {
+				trait = adventuring
+				NOT = { trait = on_current_quest }
+				prisoner = no
+			}
+			OR = {
+				trait = squire
+				trait = good_rider
+				trait = great_rider
+				trait = horse_master
+				trait = amroth_squire
+				trait = amroth_knight
+				trait = ithilien_ranger
+				trait = ithilien_captain
+				trait = weak_orc
+				trait = orc_warrior
+				trait = strong_orc
+				trait = great_orc
+				trait = pacifist_elf
+				trait = trained_elf
+				trait = great_elf
+				trait = legendary_warrior
+				trait = mumakil_raiser
+				trait = mumakil_groom
+				trait = mumakil_rider
+				trait = mumakil_commander
+				trait = dwarf_warrior
+				trait = trained_dwarf
+				trait = great_axeman
+				trait = dragon_slayer
+				trait = dunedain_scout
+				trait = dunedain_ranger
+				trait = dunedain_captain
+				trait = grey_member
+				trait = bowman
+				trait = skilled_bowman
+				trait = great_bowman
+				trait = master_bowman
+			}	
+		}
+
+		mean_time_to_happen = {
+			months = 3
+			modifier = {
+				factor = 20
+				has_character_flag = adventurer13
+			}
+		}
+
+		option = {
+			name = EVTOPTAadventurer.13
+			set_character_flag = adventurer13
+			add_trait = on_current_quest
+			character_event = { id = adventurer.14 days = 7 }
+		}
+
+		option = {
+			name = EVTOPTBadventurer.13
+			set_character_flag = adventurer13
+		}
+
+	}
+
+	character_event = {
+		id = adventurer.14
+		title = EVTTITadventurer.14
+		desc = EVTDESCadventurer.14
+		picture = "GFX_evt_bandits"	
+	
+		is_triggered_only = yes
+	
+		option = {
+			name = EVTOPTAadventurer.14
+			if = {
+				limit = {
+					OR = {
+						trait = squire
+						trait = good_rider
+						trait = amroth_squire
+						trait = ithilien_ranger
+						trait = weak_orc
+						trait = orc_warrior
+						trait = pacifist_elf
+						trait = trained_elf
+						trait = mumakil_raiser
+						trait = mumakil_groom
+						trait = dwarf_warrior
+						trait = trained_dwarf
+						trait = dunedain_scout
+						trait = dunedain_ranger
+						trait = bowman
+						trait = skilled_bowman
+					}
+				}
+				random_list = {
+					75 = { character_event = { id = adventurer.15  } }
+					25 = { character_event = { id = adventurer.16  } }
+				}
+			}
+			if = {
+				limit = {
+                    OR = {
+						trait = great_rider
+						trait = horse_master
+						trait = amroth_knight
+						trait = ithilien_captain
+						trait = strong_orc
+						trait = great_orc
+						trait = great_elf
+						trait = legendary_warrior
+						trait = mumakil_rider
+						trait = mumakil_commander
+						trait = great_axeman
+						trait = dragon_slayer
+						trait = dunedain_captain
+						trait = grey_member
+						trait = great_bowman
+						trait = master_bowman
+					}
+				}
+				character_event = { id = adventurer.15  } 
+			}
+		}
+	
+		option = {
+			name = EVTOPTBadventurer.14
+			trigger = { ai = no }
+			remove_trait = on_current_quest
+			prestige = -50
+			random_list = {
+				75 = { }
+				25 = { add_trait = craven }
+			}
+		}
+	
+	}
+	
+	#trolls success#
+	character_event = {
+		id = adventurer.15
+		title = EVTTITadventurer.15
+		desc = EVTDESCadventurer.15
+		picture = "GFX_evt_troll"
+
+		is_triggered_only = yes
+	
+		option = {
+			name = EVTOPTAadventurer.15
+			remove_trait = on_current_quest
+			wealth = 50
+			prestige = 50
+			random = {
+				chance = 5
+				add_trait = wounded
+			}	
+			if = {
+				limit = { trait = squire }
+					random = {
+						chance = 25
+						remove_trait = squire
+						add_trait = good_rider
+					}
+			}
+			if = {
+				limit = { trait = good_rider }
+				random = {
+					chance = 10
+					remove_trait = good_rider
+					add_trait = great_rider
+				}
+			}
+			if = {
+				limit = { trait = weak_orc }
+				random = {
+					chance = 25
+					remove_trait = weak_orc
+					add_trait = orc_warrior
+				}
+			}
+			if = {
+				limit = { trait = orc_warrior }
+				random = {
+					chance = 10
+					remove_trait = orc_warrior
+					add_trait = great_orc
+				}
+			}
+			if = {
+				limit = { trait = trained_elf }
+				random = {
+					chance = 25
+					remove_trait = trained_elf
+					add_trait = elf_warrior
+				}
+			}
+			if = {
+				limit = { trait = dwarf_warrior }
+				random = {
+					chance = 25
+					remove_trait = dwarf_warrior
+					add_trait = trained_dwarf
+				}
+			}
+			if = {
+				limit = { trait = trained_dwarf }
+				random = {
+					chance = 10
+					remove_trait = trained_dwarf
+					add_trait = great_axeman
+				}
+			}
+			if = {
+				limit = { trait = dunedain_scout }
+				random = {
+					chance = 25
+					remove_trait = dunedain_scout
+					add_trait = dunedain_ranger
+				}
+			}
+			if = {
+				limit = { trait = dunedain_ranger }
+				random = {
+					chance = 10
+					remove_trait = dunedain_ranger
+					add_trait = dunedain_captain
+				}
+			}	
+			if = {
+				limit = { trait = bowman }
+				random = {
+					chance = 25
+					remove_trait = bowman
+					add_trait = skilled_bowman
+				}
+			}
+			if = {
+				limit = { trait = skilled_bowman }
+				random = {
+					chance = 10
+					remove_trait = skilled_bowman
+					add_trait = great_bowman
+				}
+			}	
+		}
+					
+	}
+
+	#trolls defeat#
+	character_event = {
+		id = adventurer.16
+		title = EVTTITadventurer.16
+		desc = EVTDESCadventurer.16
+		picture = "GFX_evt_troll"
+	
+		is_triggered_only = yes
+	
+		option = {
+			name = EVTOPTAadventurer.16
+			remove_trait = on_current_quest
+			prestige = -25
+			random_list = {
+				60 = { }	
+				25 = { 
+					add_trait = wounded 
+				}
+				10 = { 
+					add_trait = maimed 
+				}
+				5 = {   
+					death = {
+						death_reason = death_battle
+					}
+				}
+			}
+		}			
+	}
+	
+	###wicked witch###
+	character_event = {
+    id = adventurer.17
+    title = "Wicked Witch"
+    desc = "While visiting a tavern, you hear stories of a witch, possibly a priestess of Kriesha, stealing children from the village. She lives in a cave a few days away. Do you want to investigate?"
+    picture = "GFX_evt_feast"	
+	
+	trigger = {
+	AND = {
+	trait = adventuring
+	NOT = { trait = on_current_quest }
+	prisoner = no
+	}
+        OR = {
+trait = amateur_bard 
+trait = novice_bard 
+trait = trained_bard 
+trait = amateur_mage 
+trait = novice_mage
+trait = trained_mage
+trait = amateur_priest
+trait = novice_priest
+trait = trained_priest
+trait = amateur_ranger
+trait = novice_ranger
+trait = trained_ranger
+trait = amateur_rogue
+trait = novice_rogue
+trait = trained_rogue
+trait = amateur_fighter
+trait = novice_fighter
+trait = trained_fighter
+trait = amateur_sorcerer
+trait = novice_sorcerer
+trait = trained_sorcerer
+trait = master_bard 
+trait = legendary_bard 
+trait = master_mage
+trait = legendary_mage
+trait = master_priest
+trait = legendary_priest
+trait = master_ranger
+trait = legendary_ranger
+trait = master_rogue
+trait = legendary_rogue
+trait = master_fighter
+trait = legendary_fighter
+trait = master_sorcerer
+trait = legendary_sorcerer 
+                }	
+				}
+
+mean_time_to_happen = {
+months = 6
+		modifier = {
+			factor = 20
+			AND = {
+			age = 15
+			has_character_flag = adventurer17
+		}
+		}
+}
+
+option = {
+name = "Let's go!"
+set_character_flag = adventurer17
+add_trait = on_current_quest
+character_event = { id = adventurer.18 days = 3 }
+}
+
+option = {
+name = "No, witches do not interest me."
+set_character_flag = adventurer17
+}
+
+}	
+
+	character_event = {
+    id = adventurer.18
+    title = "Witch's Lair"
+    desc = "After some searching, you finally come upon a cave with skulls decorating the entrance and the symbol of Kriesha carved with blood into the rocks. Do you enter?"
+    picture = "GFX_evt_bandits"	
+	
+	is_triggered_only = yes
+	
+	option = {
+	name = "Let's go!"
+	if = {
+	    limit = {
+        OR = {
+trait = amateur_bard 
+trait = novice_bard 
+trait = trained_bard 
+trait = amateur_mage 
+trait = novice_mage
+trait = trained_mage
+trait = amateur_priest
+trait = novice_priest
+trait = trained_priest
+trait = amateur_ranger
+trait = novice_ranger
+trait = trained_ranger
+trait = amateur_rogue
+trait = novice_rogue
+trait = trained_rogue
+trait = amateur_fighter
+trait = novice_fighter
+trait = trained_fighter
+trait = amateur_sorcerer
+trait = novice_sorcerer
+trait = trained_sorcerer
+                }
+				}
+	random_list = {
+    75 = { character_event = { id = adventurer.19  } }
+	25 = { character_event = { id = adventurer.20  } }
+	}
+	}
+	if = {
+	    limit = {
+                    OR = {
+trait = master_bard 
+trait = legendary_bard 
+trait = master_mage
+trait = legendary_mage
+trait = master_priest
+trait = legendary_priest
+trait = master_ranger
+trait = legendary_ranger
+trait = master_rogue
+trait = legendary_rogue
+trait = master_fighter
+trait = legendary_fighter
+trait = master_sorcerer
+trait = legendary_sorcerer 
+                }
+				}
+	character_event = { id = adventurer.19  }
+	}
+	}
+	
+	option = {
+	name = "No, wait, let's leave her alone."
+	trigger = { ai = no }
+	remove_trait = on_current_quest
+	prestige = -50
+	}
+	
+}
+	
+	#WITCHES success#
+	character_event = {
+    id = adventurer.19
+    title = "Wich's Lair"
+    desc = "You march into the cave, and as soon as you do, are met by a hail of ice sprouting from the fingertips of a darkly beautiful woman dressed in white robes. After a quick but fierce battle, you kill her, and free the children."
+    picture = "GFX_evt_battle"
+
+	is_triggered_only = yes
+	
+	option = {
+	name = "That was cold!"
+	remove_trait = on_current_quest
+	wealth = 5
+	prestige = 50
+	random = {
+	chance = 5
+	add_trait = wounded
+	}	
+	if = {
+	limit = { trait = amateur_fighter }
+random = {
+	chance = 25
+	remove_trait = amateur_fighter
+	add_trait = novice_fighter
+	}
+	}
+	if = {
+	limit = { trait = novice_fighter }
+random = {
+	chance = 5
+	remove_trait = novice_fighter
+	add_trait = trained_fighter
+	}
+	}
+	if = {
+	limit = { trait = amateur_rogue }
+random = {
+	chance = 25
+	remove_trait = amateur_rogue
+	add_trait = novice_rogue
+	}
+	}
+	if = {
+	limit = { trait = novice_rogue }
+random = {
+	chance = 5
+	remove_trait = novice_rogue
+	add_trait = trained_rogue
+	}
+	}
+	if = {
+	limit = { trait = amateur_sorcerer }
+random = {
+	chance = 25
+	remove_trait = amateur_sorcerer
+	add_trait = novice_sorcerer
+	}
+	}
+	if = {
+	limit = { trait = novice_sorcerer }
+random = {
+	chance = 5
+	remove_trait = novice_sorcerer
+	add_trait = trained_sorcerer
+	}
+	}
+	if = {
+	limit = { trait = amateur_priest }
+random = {
+	chance = 25
+	remove_trait = amateur_priest
+	add_trait = novice_priest
+	}
+	}
+	if = {
+	limit = { trait = novice_priest }
+random = {
+	chance = 5
+	remove_trait = novice_priest
+	add_trait = trained_priest
+	}
+	}
+	if = {
+	limit = { trait = amateur_ranger }
+random = {
+	chance = 25
+	remove_trait = amateur_ranger
+	add_trait = novice_ranger
+	}
+	}
+	if = {
+	limit = { trait = novice_ranger }
+random = {
+	chance = 5
+	remove_trait = novice_ranger
+	add_trait = trained_ranger
+	}
+	}	
+	if = {
+	limit = { trait = amateur_ranger }
+random = {
+	chance = 25
+	remove_trait = amateur_bard
+	add_trait = novice_bard
+	}
+	}
+	if = {
+	limit = { trait = novice_bard }
+random = {
+	chance = 5
+	remove_trait = novice_bard
+	add_trait = trained_bard
+	}
+	}	
+	}
+	
+	}
+
+	character_event = {
+    id = adventurer.20
+    title = "Witch's Lair"
+    desc = "As soon as you march into the cave, you are surprised by a cone of icy cold sprouting from the fingers of a beautiful woman dressed in white, quickly followed by four of her apprentices whose chants almost bring you to your knees with pain."
+    picture = "GFX_evt_bloody_man"
+
+	is_triggered_only = yes
+	
+	option = {
+	name = "Retreat - they're too powerful!"
+	remove_trait = on_current_quest
+		random_list = {
+	55 = { }	
+	35 = { 
+	add_trait = wounded 
+	}
+	5 = { 
+	add_trait = maimed 
+	}
+	5 = {   death = {
+		death_reason = death_battle
+				}
+				}
+				}
+				}
+				
+				}
+				
+	##random attack by brigands##
+	character_event = {
+    id = adventurer.21
+    title = "Ambush!"
+    desc = "As your party travels through the wilds, you are suddenly ambused by a band of outlaws."
+    picture = "GFX_evt_hunt"
+	
+	trigger = {
+	AND = {
+	trait = adventuring
+	NOT = { trait = on_current_quest }
+	prisoner = no
+	}
+        OR = {
+trait = amateur_bard 
+trait = novice_bard 
+trait = trained_bard 
+trait = amateur_mage 
+trait = novice_mage
+trait = trained_mage
+trait = amateur_priest
+trait = novice_priest
+trait = trained_priest
+trait = amateur_ranger
+trait = novice_ranger
+trait = trained_ranger
+trait = amateur_rogue
+trait = novice_rogue
+trait = trained_rogue
+trait = amateur_fighter
+trait = novice_fighter
+trait = trained_fighter
+trait = amateur_sorcerer
+trait = novice_sorcerer
+trait = trained_sorcerer
+trait = master_bard 
+trait = legendary_bard 
+trait = master_mage
+trait = legendary_mage
+trait = master_priest
+trait = legendary_priest
+trait = master_ranger
+trait = legendary_ranger
+trait = master_rogue
+trait = legendary_rogue
+trait = master_fighter
+trait = legendary_fighter
+trait = master_sorcerer
+trait = legendary_sorcerer 
+                }	
+				}
+
+mean_time_to_happen = {
+months = 6
+		modifier = {
+			factor = 5
+			AND = {
+			age = 15
+			has_character_flag = adventurer21
+		}
+		}
+}
+	
+	option = {
+	name = "Men - rally to me!"
+	set_character_flag = adventurer21
+	if = {
+	    limit = {
+        OR = {
+trait = amateur_bard 
+trait = novice_bard 
+trait = trained_bard 
+trait = amateur_mage 
+trait = novice_mage
+trait = trained_mage
+trait = amateur_priest
+trait = novice_priest
+trait = trained_priest
+trait = amateur_ranger
+trait = novice_ranger
+trait = trained_ranger
+trait = amateur_rogue
+trait = novice_rogue
+trait = trained_rogue
+trait = amateur_fighter
+trait = novice_fighter
+trait = trained_fighter
+trait = amateur_sorcerer
+trait = novice_sorcerer
+trait = trained_sorcerer
+                }
+				}
+	random_list = {
+    80 = { character_event = { id = adventurer.22  } }
+	20 = { character_event = { id = adventurer.23  } }
+	}
+	}
+	if = {
+	    limit = {
+                    OR = {
+trait = master_bard 
+trait = legendary_bard 
+trait = master_mage
+trait = legendary_mage
+trait = master_priest
+trait = legendary_priest
+trait = master_ranger
+trait = legendary_ranger
+trait = master_rogue
+trait = legendary_rogue
+trait = master_fighter
+trait = legendary_fighter
+trait = master_sorcerer
+trait = legendary_sorcerer 
+                }
+				}
+character_event = { id = adventurer.22 } 
+	}
+	}
+
+}	
+	
+	#brigand ambush success#
+	character_event = {
+    id = adventurer.22
+    title = "Brigand Ambush"
+    desc = "You take cover from the initial ambush, and after a brief moment, take the fight to them. You slay several, and the rest flee in terror before your party's overpowering strength!"
+    picture = "GFX_evt_hunt"
+
+	is_triggered_only = yes
+	
+	option = {
+	name = "Is everyone ok?"
+	wealth = 5
+	random = {
+	chance = 5
+	add_trait = wounded
+	}	
+	if = {
+	limit = { trait = amateur_fighter }
+random = {
+	chance = 25
+	remove_trait = amateur_fighter
+	add_trait = novice_fighter
+	}
+	}
+	if = {
+	limit = { trait = novice_fighter }
+random = {
+	chance = 10
+	remove_trait = novice_fighter
+	add_trait = trained_fighter
+	}
+	}
+	if = {
+	limit = { trait = amateur_rogue }
+random = {
+	chance = 25
+	remove_trait = amateur_rogue
+	add_trait = novice_rogue
+	}
+	}
+	if = {
+	limit = { trait = novice_rogue }
+random = {
+	chance = 10
+	remove_trait = novice_rogue
+	add_trait = trained_rogue
+	}
+	}
+	if = {
+	limit = { trait = amateur_sorcerer }
+random = {
+	chance = 25
+	remove_trait = amateur_sorcerer
+	add_trait = novice_sorcerer
+	}
+	}
+	if = {
+	limit = { trait = novice_sorcerer }
+random = {
+	chance = 10
+	remove_trait = novice_sorcerer
+	add_trait = trained_sorcerer
+	}
+	}
+	if = {
+	limit = { trait = amateur_priest }
+random = {
+	chance = 25
+	remove_trait = amateur_priest
+	add_trait = novice_priest
+	}
+	}
+	if = {
+	limit = { trait = novice_priest }
+random = {
+	chance = 10
+	remove_trait = novice_priest
+	add_trait = trained_priest
+	}
+	}
+	if = {
+	limit = { trait = amateur_ranger }
+random = {
+	chance = 25
+	remove_trait = amateur_ranger
+	add_trait = novice_ranger
+	}
+	}
+	if = {
+	limit = { trait = novice_ranger }
+random = {
+	chance = 10
+	remove_trait = novice_ranger
+	add_trait = trained_ranger
+	}
+	}	
+	if = {
+	limit = { trait = amateur_ranger }
+random = {
+	chance = 25
+	remove_trait = amateur_bard
+	add_trait = novice_bard
+	}
+	}
+	if = {
+	limit = { trait = novice_bard }
+random = {
+	chance = 10
+	remove_trait = novice_bard
+	add_trait = trained_bard
+	}
+	}	
+	}
+	
+	}
+
+	#brigand ambush defeat#
+	character_event = {
+    id = adventurer.23
+    title = "Brigand Ambush"
+    desc = "The ambush was well set-up! Two dozen archers pin you down, and they have mounted troops and what seems to be a half-giant! If you rush them, there's a good chance you won't make it..."
+    picture = "GFX_evt_hunt"
+
+	is_triggered_only = yes
+	
+	option = {
+	name = "Fall back! Leave our packs behind!"
+	wealth = -20
+	prestige = -50
+		random_list = {
+	60 = { }	
+	25 = { 
+	add_trait = wounded 
+	}
+	10 = { 
+	add_trait = maimed 
+	}
+	5 = {   death = {
+		death_reason = death_battle
+				}
+				}
+				}
+				}
+				
+	option = {
+	name = "I won't run from these scum! Chaaarge!"
+	trigger = { ai = no }
+character_event = { id = adventurer.24 } 				
+				}
+				
+				}
+				
+	#brigand ambush charge#
+	character_event = {
+    id = adventurer.24
+    title = "The Charge"
+    desc = "Ignoring a hail of arrows, you order your party to attack! With steel, stealth, sorcery and priestly powers, you throw everything you have at them, and..."
+    picture = "GFX_evt_peasants"
+
+	is_triggered_only = yes
+	
+	option = {
+	name = "Forwards! To victory!"
+	random_list = {
+    50 = { character_event = { id = adventurer.25  } }
+	50 = { character_event = { id = adventurer.26  } }
+	}
+	}
+	
+	}
+	
+	#brigand ambush charge,success#
+	character_event = {
+    id = adventurer.25
+    title = "The Charge"
+    desc = "The fight is brutal, but the ferocity and strength of your charge throws off the brigands. The archers flee as you near them, and a fierce fight follows where you personally slay their leader. The rest turn and run!"
+    picture = "GFX_evt_peasants"
+
+	is_triggered_only = yes
+	
+	option = {
+	name = "Victory!"
+	wealth = 5
+    prestige = 25	
+	random_list = {
+    50 = { add_trait = wounded }
+	50 = { 
+	}
+	}
+	if = {
+	limit = { trait = amateur_fighter }
+random = {
+	chance = 25
+	remove_trait = amateur_fighter
+	add_trait = novice_fighter
+	}
+	}
+	if = {
+	limit = { trait = novice_fighter }
+random = {
+	chance = 25
+	remove_trait = novice_fighter
+	add_trait = trained_fighter
+	}
+	}
+	if = {
+	limit = { trait = amateur_rogue }
+random = {
+	chance = 25
+	remove_trait = amateur_rogue
+	add_trait = novice_rogue
+	}
+	}
+	if = {
+	limit = { trait = novice_rogue }
+random = {
+	chance = 25
+	remove_trait = novice_rogue
+	add_trait = trained_rogue
+	}
+	}
+	if = {
+	limit = { trait = amateur_sorcerer }
+random = {
+	chance = 25
+	remove_trait = amateur_sorcerer
+	add_trait = novice_sorcerer
+	}
+	}
+	if = {
+	limit = { trait = novice_sorcerer }
+random = {
+	chance = 25
+	remove_trait = novice_sorcerer
+	add_trait = trained_sorcerer
+	}
+	}
+	if = {
+	limit = { trait = amateur_priest }
+random = {
+	chance = 25
+	remove_trait = amateur_priest
+	add_trait = novice_priest
+	}
+	}
+	if = {
+	limit = { trait = novice_priest }
+random = {
+	chance = 25
+	remove_trait = novice_priest
+	add_trait = trained_priest
+	}
+	}
+	if = {
+	limit = { trait = amateur_ranger }
+random = {
+	chance = 25
+	remove_trait = amateur_ranger
+	add_trait = novice_ranger
+	}
+	}
+	if = {
+	limit = { trait = novice_ranger }
+random = {
+	chance = 25
+	remove_trait = novice_ranger
+	add_trait = trained_ranger
+	}
+	}	
+	if = {
+	limit = { trait = amateur_ranger }
+random = {
+	chance = 25
+	remove_trait = amateur_bard
+	add_trait = novice_bard
+	}
+	}
+	if = {
+	limit = { trait = novice_bard }
+random = {
+	chance = 25
+	remove_trait = novice_bard
+	add_trait = trained_bard
+	}
+	}
+	}
+	
+	}
+	
+	#brigand ambush charge,failure#
+	character_event = {
+    id = adventurer.26
+    title = "The Charge"
+    desc = "You rush the brigands, but you take an arrow to the knee as you leave cover! Another arrow hits one of your companions through the throat. This is not going well. A man approaches with a mace, seeking to knock you out!"
+    picture = "GFX_evt_peasants"
+
+	is_triggered_only = yes
+	
+	option = {
+	name = "Men, get me out of here!"
+	wealth = -20
+		random_list = {
+	30 = {
+	add_trait = wounded
+	random_independent_ruler = {
+	limit = { 
+	is_landed = yes
+	OR = {
+	tier = DUKE
+	tier = KING
+	tier = EMPEROR
+	trait = awn_succubus
+	trait = awn_white_witch
+	trait = awn_magian
+	}
+	OR = {
+	religion = Azrai
+	religion = GoblinPantheon
+	religion = OrogPantheon
+	religion = Outlaw
+	religion = Serpent
+	religion = Lahmia
+	}
+	}
+	character_event = { id = random.12 }
+	}
+	}	
+	55 = { 
+	add_trait = maimed 
+	random_independent_ruler = {
+	limit = { 
+	is_landed = yes
+	OR = {
+	tier = DUKE
+	tier = KING
+	tier = EMPEROR
+	trait = awn_succubus
+	trait = awn_white_witch
+	trait = awn_magian
+	}
+	OR = {
+	religion = Azrai
+	religion = GoblinPantheon
+	religion = OrogPantheon
+	religion = Outlaw
+	religion = Serpent
+	religion = Lahmia
+	}
+	}
+	character_event = { id = random.12 }
+	}
+	}
+	15 = {   death = {
+		death_reason = death_battle
+				}
+				}
+				}
+}
+}				
+	
+
+	##random attack by goblins##
+	character_event = {
+    id = adventurer.27
+    title = "Ambush!"
+    desc = "While resting around the camp fire one night, your party is suddenly ambused by a band of goblins."
+    picture = "GFX_evt_hunt"
+	
+	trigger = {
+	AND = {
+	trait = adventuring
+	NOT = { trait = on_current_quest }
+	prisoner = no
+	}
+        OR = {
+trait = amateur_bard 
+trait = novice_bard 
+trait = trained_bard 
+trait = amateur_mage 
+trait = novice_mage
+trait = trained_mage
+trait = amateur_priest
+trait = novice_priest
+trait = trained_priest
+trait = amateur_ranger
+trait = novice_ranger
+trait = trained_ranger
+trait = amateur_rogue
+trait = novice_rogue
+trait = trained_rogue
+trait = amateur_fighter
+trait = novice_fighter
+trait = trained_fighter
+trait = amateur_sorcerer
+trait = novice_sorcerer
+trait = trained_sorcerer
+trait = master_bard 
+trait = legendary_bard 
+trait = master_mage
+trait = legendary_mage
+trait = master_priest
+trait = legendary_priest
+trait = master_ranger
+trait = legendary_ranger
+trait = master_rogue
+trait = legendary_rogue
+trait = master_fighter
+trait = legendary_fighter
+trait = master_sorcerer
+trait = legendary_sorcerer 
+                }	
+				}
+
+mean_time_to_happen = {
+months = 9
+		modifier = {
+			factor = 5
+			AND = {
+			age = 15
+			has_character_flag = adventurer27
+		}
+		}
+}
+	
+	option = {
+	name = "Up men - to arms!"
+	set_character_flag = adventurer27
+	if = {
+	    limit = {
+        OR = {
+trait = amateur_bard 
+trait = novice_bard 
+trait = trained_bard 
+trait = amateur_mage 
+trait = novice_mage
+trait = trained_mage
+trait = amateur_priest
+trait = novice_priest
+trait = trained_priest
+trait = amateur_ranger
+trait = novice_ranger
+trait = trained_ranger
+trait = amateur_rogue
+trait = novice_rogue
+trait = trained_rogue
+trait = amateur_fighter
+trait = novice_fighter
+trait = trained_fighter
+trait = amateur_sorcerer
+trait = novice_sorcerer
+trait = trained_sorcerer
+                }
+				}
+	random_list = {
+    80 = { character_event = { id = adventurer.28  } }
+	20 = { character_event = { id = adventurer.29  } }
+	}
+	}
+	if = {
+	    limit = {
+                    OR = {
+trait = master_bard 
+trait = legendary_bard 
+trait = master_mage
+trait = legendary_mage
+trait = master_priest
+trait = legendary_priest
+trait = master_ranger
+trait = legendary_ranger
+trait = master_rogue
+trait = legendary_rogue
+trait = master_fighter
+trait = legendary_fighter
+trait = master_sorcerer
+trait = legendary_sorcerer 
+                }
+				}
+character_event = { id = adventurer.28 } 
+	}
+	}
+
+}	
+	
+	#goblin ambush success#
+	character_event = {
+    id = adventurer.28
+    title = "Goblin Ambush"
+    desc = "Like the well trained professionals that you are, you quickly jump to arms and engage the goblins! There are almost two dozen of them, but their ambush was clumsy and loud - you swiftly defeat them."
+    picture = "GFX_evt_hunt"
+
+	is_triggered_only = yes
+	
+	option = {
+	name = "Is everyone ok?"
+	wealth = 5
+	random = {
+	chance = 5
+	add_trait = wounded
+	}	
+	if = {
+	limit = { trait = amateur_fighter }
+random = {
+	chance = 25
+	remove_trait = amateur_fighter
+	add_trait = novice_fighter
+	}
+	}
+	if = {
+	limit = { trait = novice_fighter }
+random = {
+	chance = 10
+	remove_trait = novice_fighter
+	add_trait = trained_fighter
+	}
+	}
+	if = {
+	limit = { trait = amateur_rogue }
+random = {
+	chance = 25
+	remove_trait = amateur_rogue
+	add_trait = novice_rogue
+	}
+	}
+	if = {
+	limit = { trait = novice_rogue }
+random = {
+	chance = 10
+	remove_trait = novice_rogue
+	add_trait = trained_rogue
+	}
+	}
+	if = {
+	limit = { trait = amateur_sorcerer }
+random = {
+	chance = 25
+	remove_trait = amateur_sorcerer
+	add_trait = novice_sorcerer
+	}
+	}
+	if = {
+	limit = { trait = novice_sorcerer }
+random = {
+	chance = 10
+	remove_trait = novice_sorcerer
+	add_trait = trained_sorcerer
+	}
+	}
+	if = {
+	limit = { trait = amateur_priest }
+random = {
+	chance = 25
+	remove_trait = amateur_priest
+	add_trait = novice_priest
+	}
+	}
+	if = {
+	limit = { trait = novice_priest }
+random = {
+	chance = 10
+	remove_trait = novice_priest
+	add_trait = trained_priest
+	}
+	}
+	if = {
+	limit = { trait = amateur_ranger }
+random = {
+	chance = 25
+	remove_trait = amateur_ranger
+	add_trait = novice_ranger
+	}
+	}
+	if = {
+	limit = { trait = novice_ranger }
+random = {
+	chance = 10
+	remove_trait = novice_ranger
+	add_trait = trained_ranger
+	}
+	}	
+	if = {
+	limit = { trait = amateur_ranger }
+random = {
+	chance = 25
+	remove_trait = amateur_bard
+	add_trait = novice_bard
+	}
+	}
+	if = {
+	limit = { trait = novice_bard }
+random = {
+	chance = 10
+	remove_trait = novice_bard
+	add_trait = trained_bard
+	}
+	}	
+	}
+	
+	}
+
+	#goblin ambush defeat#
+	character_event = {
+    id = adventurer.29
+    title = "Goblin Ambush"
+    desc = "You seem to be under attack from an entire goblin tribe, and they have gnolls with them! Disorganized, you cannot mount a proper defense. It would be wise to let them have you gear and make a run for it..."
+    picture = "GFX_evt_hunt"
+
+	is_triggered_only = yes
+	
+	option = {
+	name = "Fall back! Leave our packs behind!"
+	wealth = -20
+	prestige = -50
+		random_list = {
+	60 = { }	
+	25 = { 
+	add_trait = wounded 
+	}
+	10 = { 
+	add_trait = maimed 
+	}
+	5 = {   death = {
+		death_reason = death_battle
+				}
+				}
+				}
+				}
+				
+	option = {
+	name = "I won't run from goblins! Stand and fight!"
+	trigger = { ai = no }
+character_event = { id = adventurer.30 } 				
+				}
+				
+				}
+				
+	#goblin ambush charge#
+	character_event = {
+    id = adventurer.30
+    title = "The Stand"
+    desc = "Gathering your party together, fighting back to back, you face the rush of dozens of goblins and gnolls!"
+    picture = "GFX_evt_hunt"
+
+	is_triggered_only = yes
+	
+	option = {
+	name = "Stand firm! Hoooold the line!"
+	random_list = {
+    50 = { character_event = { id = adventurer.31  } }
+	50 = { character_event = { id = adventurer.32  } }
+	}
+	}
+	
+	}
+	
+	#goblin ambush charge,success#
+	character_event = {
+    id = adventurer.31
+    title = "The Stand"
+    desc = "Your party stands firm against the onslaught, fighting as a well disciplined team against the disorganized goblins. They cannot break your line, and soon a goblin horn sounds the retreat. Cowardly creatures!"
+    picture = "GFX_evt_hunt"
+
+	is_triggered_only = yes
+	
+	option = {
+	name = "Victory!"
+	wealth = 5
+    prestige = 25	
+	random_list = {
+    50 = { add_trait = wounded }
+	50 = { 
+	}
+	}
+	if = {
+	limit = { trait = amateur_fighter }
+random = {
+	chance = 25
+	remove_trait = amateur_fighter
+	add_trait = novice_fighter
+	}
+	}
+	if = {
+	limit = { trait = novice_fighter }
+random = {
+	chance = 25
+	remove_trait = novice_fighter
+	add_trait = trained_fighter
+	}
+	}
+	if = {
+	limit = { trait = amateur_rogue }
+random = {
+	chance = 25
+	remove_trait = amateur_rogue
+	add_trait = novice_rogue
+	}
+	}
+	if = {
+	limit = { trait = novice_rogue }
+random = {
+	chance = 25
+	remove_trait = novice_rogue
+	add_trait = trained_rogue
+	}
+	}
+	if = {
+	limit = { trait = amateur_sorcerer }
+random = {
+	chance = 25
+	remove_trait = amateur_sorcerer
+	add_trait = novice_sorcerer
+	}
+	}
+	if = {
+	limit = { trait = novice_sorcerer }
+random = {
+	chance = 25
+	remove_trait = novice_sorcerer
+	add_trait = trained_sorcerer
+	}
+	}
+	if = {
+	limit = { trait = amateur_priest }
+random = {
+	chance = 25
+	remove_trait = amateur_priest
+	add_trait = novice_priest
+	}
+	}
+	if = {
+	limit = { trait = novice_priest }
+random = {
+	chance = 25
+	remove_trait = novice_priest
+	add_trait = trained_priest
+	}
+	}
+	if = {
+	limit = { trait = amateur_ranger }
+random = {
+	chance = 25
+	remove_trait = amateur_ranger
+	add_trait = novice_ranger
+	}
+	}
+	if = {
+	limit = { trait = novice_ranger }
+random = {
+	chance = 25
+	remove_trait = novice_ranger
+	add_trait = trained_ranger
+	}
+	}	
+	if = {
+	limit = { trait = amateur_ranger }
+random = {
+	chance = 25
+	remove_trait = amateur_bard
+	add_trait = novice_bard
+	}
+	}
+	if = {
+	limit = { trait = novice_bard }
+random = {
+	chance = 25
+	remove_trait = novice_bard
+	add_trait = trained_bard
+	}
+	}
+	}
+	
+	}
+	
+	#goblin ambush charge,failure#
+	character_event = {
+    id = adventurer.32
+    title = "The Stand"
+    desc = "The goblins encircle you, and the larger gnolls rush at you. Take them alive, yells the goblin chief, and your line begins to break under the pressure. Gnoll hands grasp at you, pulling you away from your party..."
+    picture = "GFX_evt_hunt"
+
+	is_triggered_only = yes
+	
+	option = {
+	name = "Nooo... not like this!"
+	wealth = -20
+		random_list = {
+	30 = {
+	add_trait = wounded
+random_independent_ruler = {
+	limit = { 
+	is_landed = yes
+	OR = {
+	tier = DUKE
+	tier = KING
+	tier = EMPEROR
+	trait = awn_succubus
+	trait = awn_white_witch
+	trait = awn_magian
+	}
+	OR = {
+	religion = Azrai
+	religion = GoblinPantheon
+	religion = OrogPantheon
+	religion = Outlaw
+	religion = Serpent
+	religion = Lahmia
+	}
+	}
+	character_event = { id = random.12 }
+	}
+	}	
+	55 = { 
+	add_trait = maimed 
+	random_independent_ruler = {
+	limit = { 
+	is_landed = yes
+	OR = {
+	tier = DUKE
+	tier = KING
+	tier = EMPEROR
+	trait = awn_succubus
+	trait = awn_white_witch
+	trait = awn_magian
+	}
+	OR = {
+	religion = Azrai
+	religion = GoblinPantheon
+	religion = OrogPantheon
+	religion = Outlaw
+	religion = Serpent
+	religion = Lahmia
+	}
+	}
+	character_event = { id = random.12 }
+	}
+	}
+	15 = {   death = {
+		death_reason = death_battle
+				}
+				}
+				}
+}
+}
+
+##mercenary jobs##
+
+	#Ruler can choose to hire an adventurer to aid in the war#
+	character_event = {
+    id = adventurer.33
+    title = "Hire Adventurers"
+    desc = "While your army is fully capable of fighting the battles to come, sometimes it helps to have an extra edge. Shall you hire a band of adventurers to help you win this war? They would cost 50 gold."
+    picture = "GFX_evt_large_army"
+	
+	trigger={
+	war=yes
+	NOT = { trait = awn_gorgon }
+	NOT = { trait = awn_succubus }
+	NOT = { trait = awn_brute }
+	NOT = { trait = awn_raven }
+	NOT = { trait = awn_serpent }
+	NOT = { trait = awn_magian }
+	OR = {
+	religion = Haelyn
+	religion = Sera
+	religion = Avani
+	religion = Erik
+	religion = Kriesha
+	religion = Belinik
+	religion = Azrai
+	}
+	OR = {
+	tier = DUKE
+	tier = KING
+	tier = EMPEROR
+	tier = COUNT
+	}
+	}
+	
+	mean_time_to_happen = {
+	years = 5
+	}
+	
+	option = {
+	name = "Yes, hire some local adventurers."
+	random_playable_ruler = {
+	limit = {
+	any_courtier = {
+	trait = adventuring
+	NOT = { trait = on_current_quest }
+	religion = ROOT
+	}
+	}
+	random_courtier = {
+	limit = {
+	AND = {
+	religion = ROOT
+	trait = adventuring
+	NOT = { trait = on_current_quest }
+	NOT = { has_character_flag = adventurer34 }
+	prisoner = no
+	}
+	}
+	character_event = { id = adventurer.34 days = 7 }
+	}
+	}
+	}
+	
+	option = {
+	name = "Yes, hire anyone who wants the job."
+	random_playable_ruler = {
+		limit = {
+	any_courtier = {
+	trait = adventuring
+	NOT = { trait = on_current_quest }
+	}
+	}
+	random_courtier = {
+	limit = {
+	AND = {
+	trait = adventuring
+	NOT = { trait = on_current_quest }
+	NOT = { has_character_flag = adventurer34 }
+	prisoner = no
+	}
+	}
+	character_event = { id = adventurer.34 days = 7 }
+	}
+	}
+	}
+
+	option = {
+	name = "I'm too far away. Have my chancellor hire someone nearby."
+	trigger = { trait = adventuring }
+	random_playable_ruler = {
+		limit = {
+	any_courtier = {
+	trait = adventuring
+	NOT = { trait = on_current_quest }
+	religion = ROOT
+	}
+	}
+	random_courtier = {
+	limit = {
+	AND = {
+	trait = adventuring
+	NOT = { trait = on_current_quest }
+	NOT = { has_character_flag = adventurer34 }
+	prisoner = no
+	}
+	}
+	character_event = { id = adventurer.34 days = 7 }
+	}
+	}
+	}
+	
+	option = {
+	name = "No, I don't trust adventurers."
+	}
+	
+	}
+	
+	#adventurer is informed#
+	character_event = {
+    id = adventurer.34
+    title = "Mercenary Job"
+    desc = "A message arrives from a ruler, asking if you would help fight a war against their enemies. You would primarily be used for special missions. It would pay 50 gold."
+    picture = "GFX_evt_large_army"
+	
+	is_triggered_only = yes
+	
+	option = { 
+	name = "Of course - we're on our way."
+	add_trait = on_current_quest
+	FROM = { character_event = { id = adventurer.35 days = 7 } }
+	}
+	
+	option = {
+	name = "No, not now."
+	trigger = { ai = no }
+	}
+	
+	option = {
+	name = "For that ruler? I think not!"
+	trigger = { ai = no }
+	}
+	
+	option = {
+	name = "No, I won't ever do mercenary work."
+	trigger = { ai = no }
+	set_character_flag = adventurer34
+	}
+	}
+	
+	#adventurer arrives to court of ruler with the problem - rulers pov#
+	character_event = {
+    id = adventurer.35
+    title = "Adventurer"
+    desc = "The adventuring party arrives and is quickly briefed on the situation. You pay them their fee, and sit together in council deciding how best to use them in the war..."
+    picture = "GFX_evt_council"
+	
+	is_triggered_only = yes
+	
+	option = {
+	name = "I want them to instigate rebellions."
+	wealth = -50
+	FROM = { character_event = { id = adventurer.36 days = 1 } }
+	}
+
+	option = {
+	name = "I want them to assassinate my enemies."
+	wealth = -50
+	FROM = { character_event = { id = adventurer.37 days = 1 } }
+	}
+	
+	#option = {
+	#name = "I want them to steal from my enemies."
+	#wealth = -50
+	#FROM = { character_event = { id = adventurer.38 days = 1 } }
+	#}
+
+	option = {
+	name = "I want them as a special forces unit."
+	wealth = -50
+	FROM = { character_event = { id = adventurer.39 days = 1 } }
+      capital_scope = {
+            ROOT = {
+                spawn_unit = {
+                    province = PREV
+                    owner = ROOT
+					disband_on_peace = yes
+                    troops = {
+                        adventurers = { 50 50 }
+                    }
+                }
+            }
+        }
+	}
+	}
+	
+	#adventurer arrives to court of ruler with the problem - adventurers pov#
+	character_event = {
+    id = adventurer.36
+    title = "Mercenary Job"
+    desc = "You arrive at the court of the ruler who has hired you, and sit together discussing how best to use you in the battles ahead. The ruler wants you to instigate rebellions amongst his enemies."
+    picture = "GFX_evt_council"
+	
+	is_triggered_only = yes
+	
+	option = {
+	name = "Great! Peasants love rebelling."
+	wealth = 50
+character_event = { id = adventurer.40 days = 30 }
+character_event = { id = adventurer.75 days = 180 }
+	}
+	
+	option = {
+	name = "I'll do it, but I don't like using peasants this way."
+	wealth = 50
+character_event = { id = adventurer.40 days = 30 }
+character_event = { id = adventurer.75 days = 180 }
+	}	
+
+	option = {
+	name = "I won't do it. The peasants will all die."
+	remove_trait = on_current_quest
+			reverse_opinion = {
+			modifier = opinion_adventuring_foe
+			who = FROM
+			years = 40
+		}
+FROM = { character_event = { id = adventurer.44 } }
+	}
+	}
+	
+	#adventurer arrives to court of ruler with the problem - adventurers pov#
+	character_event = {
+    id = adventurer.37
+    title = "Mercenary Job"
+    desc = "You arrive at the court of the ruler who has hired you, and sit together discussing how best to use you in the battles ahead. The ruler wants you assassinate enemy nobles and commanders..."
+    picture = "GFX_evt_council"
+	
+	is_triggered_only = yes
+	
+	option = {
+	name = "Great! I love killing..."
+	wealth = 50
+character_event = { id = adventurer.41 days = 30 }
+character_event = { id = adventurer.75 days = 180 }
+	}
+	
+	option = {
+	name = "I'll do it, but I don't like it."
+	wealth = 50
+character_event = { id = adventurer.41 days = 30 }
+character_event = { id = adventurer.75 days = 180 }
+	}	
+
+	option = {
+	name = "I won't do it. I'm no assassin."
+	remove_trait = on_current_quest
+			reverse_opinion = {
+			modifier = opinion_adventuring_foe
+			who = FROM
+			years = 40
+		}
+FROM = { character_event = { id = adventurer.44 } }
+	}
+	
+	}
+	
+	#adventurer arrives to court of ruler with the problem - adventurers pov#
+	character_event = {
+    id = adventurer.38
+    title = "Mercenary Job"
+    desc = "You arrive at the court of the ruler who has hired you, and sit together discussing how best to use you in the battles ahead. The ruler wants you to steal from the enemy, making him unable to pay for his troops."
+    picture = "GFX_evt_council"
+	
+	is_triggered_only = yes
+	
+	option = {
+	name = "Great! I love stealing..."
+	wealth = 50
+character_event = { id = adventurer.42 days = 30 }
+character_event = { id = adventurer.75 days = 180 }
+	}
+	
+	option = {
+	name = "I'll do it, but I don't like stealing."
+	wealth = 50
+character_event = { id = adventurer.42 days = 30 }
+character_event = { id = adventurer.75 days = 180 }
+	}	
+
+	option = {
+	name = "I won't do it. I'm no thief."
+	remove_trait = on_current_quest
+			reverse_opinion = {
+			modifier = opinion_adventuring_foe
+			who = FROM
+			years = 40
+		}
+FROM = { character_event = { id = adventurer.44 } }
+	}
+	
+	}
+	
+	#adventurer arrives to court of ruler with the problem - adventurers pov#
+	character_event = {
+    id = adventurer.39
+    title = "Mercenary Job"
+    desc = "You arrive at the court of the ruler who has hired you, and sit together discussing how best to use you in the battles ahead. The ruler wants you to lead a unit of adventurers during the battles."
+    picture = "GFX_evt_council"
+	
+	is_triggered_only = yes
+	
+	option = {
+	name = "Great!"
+	wealth = 50
+character_event = { id = adventurer.43 days = 30 }
+character_event = { id = adventurer.75 days = 180 }
+	}
+	
+	}
+	
+	#adventurers begin to instigate rebellions#
+	character_event = {
+    id = adventurer.40
+    title = "Instigating rebellions"
+    desc = "You travel behind enemy lines, and begin to work on instigating a rebellion. What will you focus your message on?"
+    picture = "GFX_evt_peasants"
+	
+	is_triggered_only = yes
+	
+	option = {
+	name = "The unfairness of hereditary monarchy!"
+	character_event = { id = adventurer.51 days = 30 }
+	}
+	
+	option = {
+	name = "Taxes are too high!"
+	character_event = { id = adventurer.52 days = 30 }
+	}
+	
+	option = {
+	name = "The ruler is in league with demons!"
+	character_event = { id = adventurer.53 days = 30 }
+	}
+	
+	}
+	
+	#adventurers begin to plot assassinations#
+	character_event = {
+    id = adventurer.41
+    title = "Assassinations"
+    desc = "You travel behind enemy lines, and begin to plot your assasinations of enemy notables. Who will you strike at?"
+    picture = "GFX_evt_shadow"
+	
+	is_triggered_only = yes
+	
+	option = {
+	name = "The enemy marshall."
+	character_event = { id = adventurer.55 days = 30 }
+	}
+	
+	option = {
+	name = "A random enemy count."
+	character_event = { id = adventurer.56 days = 30 }
+	}
+
+	option = {
+	name = "I'll just go on a general killing spree!"
+	character_event = { id = adventurer.57 days = 30 }
+	}
+	
+	}
+	
+	#adventurers begin to gather their adventuring force#
+	character_event = {
+    id = adventurer.43
+    title = "Leading Adventurers"
+    desc = "As ordered, you begin assembling a band of adventurers into a proper fighting force of some fifty people with various skills and talents to use on the battlefield at critical moments. How will you lead them?"
+    picture = "GFX_evt_large_army"
+	
+	is_triggered_only = yes
+	
+	option = {
+	name = "I will lead from the front."
+	character_event = { id = adventurer.76 days = 90 }
+	prestige = 200
+	}
+	
+	option = {
+	name = "I will lead from the center."
+	character_event = { id = adventurer.77 days = 90 }
+	prestige = 50
+	}
+	
+
+	option = {
+	name = "I will lead from the rear."
+	character_event = { id = adventurer.78 days = 90 }
+	}
+	
+	}
+	#adventurer arrives to court of ruler with the problem - adventurers pov#
+	character_event = {
+    id = adventurer.44
+    title = "Refusal"
+    desc = "The insolence! The ragged adventurers claim to be too good for your task, and outright refuses! They return the gold, and says the job was not what they expected they would be doing. Why I'll..."
+    picture = "GFX_evt_scandal"
+	
+	is_triggered_only = yes
+
+	option = {
+	name = "Probably be better off without them anyways..."
+	wealth = 50
+		}
+		
+	option = {
+	name = "Let them go, but never forget this!"
+	wealth = 50
+	reverse_opinion = {
+	modifier = opinion_adventuring_foe
+	who = FROM
+	years = 40
+		}
+		}
+	
+	option = {
+	name = "Guards, arrest them!"
+	reverse_opinion = {
+	modifier = opinion_adventuring_foe
+	who = FROM
+	years = 40
+		}
+	FROM = { character_event = { id = adventurer.45 } }	
+	}
+	
+	}
+	
+	#adventurer are told they would be arrested#
+	character_event = {
+    id = adventurer.45
+    title = "Ruler Enraged"
+    desc = "The ruler is enraged at your refusal, and screams for his guards to arrest you immediately! What do you do?"
+    picture = "GFX_evt_scandal"
+	
+	is_triggered_only = yes	
+	
+	option = {
+	trigger = { ai = no }
+	name = "Kill the faithless fool, then run!"
+	if = {
+	    limit = {
+        OR = {
+trait = amateur_bard 
+trait = novice_bard 
+trait = trained_bard 
+trait = amateur_mage 
+trait = novice_mage
+trait = trained_mage
+trait = amateur_priest
+trait = novice_priest
+trait = trained_priest
+trait = amateur_ranger
+trait = novice_ranger
+trait = trained_ranger
+trait = amateur_rogue
+trait = novice_rogue
+trait = trained_rogue
+trait = amateur_fighter
+trait = novice_fighter
+trait = trained_fighter
+trait = amateur_sorcerer
+trait = novice_sorcerer
+trait = trained_sorcerer
+                }
+				}
+	random_list = {
+    75 = { character_event = { id = adventurer.46  } }
+	25 = { character_event = { id = adventurer.47  } }
+	}
+	}
+	if = {
+	    limit = {
+                    OR = {
+trait = master_bard 
+trait = legendary_bard 
+trait = master_mage
+trait = legendary_mage
+trait = master_priest
+trait = legendary_priest
+trait = master_ranger
+trait = legendary_ranger
+trait = master_rogue
+trait = legendary_rogue
+trait = master_fighter
+trait = legendary_fighter
+trait = master_sorcerer
+trait = legendary_sorcerer 
+                }
+				}
+	random_list = {
+    15 = { character_event = { id = adventurer.46  } }
+	85 = { character_event = { id = adventurer.47  } }
+	}
+	}
+	}
+	
+	option = {
+	name = "Run!"
+	}
+	
+	option = {
+	name = "Allow the guards to arrest you."
+	}
+	
+	}
+	
+##adventurers succeed in killing the ruler and escape##
+	character_event = {
+    id = adventurer.46
+    title = "Success!"
+    desc = "In an instant, you react, striking out at the ruler with all your power. He is caught off-guard, and falls quickly to the groundm dead or severely wounded! You then turn to rush the guards, heading for the nearest exit!"
+    picture = "GFX_evt_scandal"
+	
+	is_triggered_only = yes	
+	
+	option = {
+	name = "Hah! That'll show him!"
+	FROMFROM = { character_event = { id = adventurer.48 } }
+	random_list = {
+    25 = { add_trait = wounded }
+	10 = { add_trait = maimed }
+	65 = { }
+	}
+}	
+}
+
+##adventurers fail in killing the ruler and are caught##
+	character_event = {
+    id = adventurer.47
+    title = "Failure!"
+    desc = "In an instant, you react, striking out at the ruler with all your power. The guards jump in front of him however, and you soon find yourself surrounded, and more reinforcements on the way. There is no way out of this..."
+    picture = "GFX_evt_scandal"
+	
+	is_triggered_only = yes	
+	
+	option = {
+	name = "Curses!"
+	FROMFROM = { character_event = { id = adventurer.49 } }
+	random_list = {
+    25 = { add_trait = wounded }
+	10 = { add_trait = maimed }
+	65 = { }
+	}
+}	
+}
+	
+#adventurers kill or injure the ruler. ruler pov##
+	character_event = {
+    id = adventurer.48
+    title = "Treason!"
+    desc = "As soon as you call for their arrest, the adventurers spring into action, launching a furious assault upon your person! Before you can react, you are struck down, and blackness falls upon you..."
+    picture = "GFX_evt_scandal"
+	
+	is_triggered_only = yes	
+	
+	option = {
+	name = "*you fall to the ground*"
+	random_list = {
+    25 = { add_trait = wounded }
+	25 = { add_trait = maimed }
+	50 = {   death = {
+		death_reason = death_battle
+				}
+				}
+	}
+}
+
+}	
+
+#adventurers kill or injure the ruler. ruler pov##
+	character_event = {
+    id = adventurer.49
+    title = "Treason!"
+    desc = "As soon as you call for their arrest, the adventurers spring into action, launching a furious assault upon your person! You and your guards react swiftly though, and soon have them surrounded - they surrender..."
+    picture = "GFX_evt_scandal"
+	
+	is_triggered_only = yes	
+	
+	option = {
+	name = "They'll pay for this..."
+	FROM = { character_event = { id = adventurer.50 } }
+}
+
+}	
+
+#adventurers are imprisoned, their pov##
+	character_event = {
+    id = adventurer.50
+    title = "The Dungeons"
+    desc = "You are taken to the darkest dungeon, and unceremoniously dumped on the ground there, stripped of all your belongings. You'll have to hope you can pay the ransom, before they decide to execute you."
+    picture = "GFX_evt_into_the_dungeon"
+	
+	is_triggered_only = yes	
+	
+	option = {
+	name = "They'll pay for this..."
+	wealth = -50
+	imprison = FROM
+}
+
+}	
+
+#adventurers are instigating rebellions##
+	character_event = {
+    id = adventurer.51
+    title = "The Revolt"
+    desc = "During the last few weeks, you have been railing against the unfairness of hereditary rulers. The peasants are listening, and you have convinced them that together, they are powerful and wise enough to rule themselves!"
+    picture = "GFX_evt_peasants"
+	
+	is_triggered_only = yes	
+	
+	option = {
+	name = "Gullible fools..."
+	FROMFROMFROM={
+random_current_enemy = {
+	limit = { 
+	OR = {
+	tier = COUNT
+	tier = DUKE
+	tier = KING
+	tier = EMPEROR
+	}
+	}
+	random_realm_province = {
+	add_province_modifier = { name = adventurer_subversion duration = 180 }
+	owner = { character_event = { id = adventurer.54 days = 7 } }
+	}
+	}
+}
+}
+
+	option = {
+	name = "Solidarity, brothers!"
+	FROMFROMFROM={
+random_current_enemy = {
+	limit = { 
+	OR = {
+	tier = COUNT
+	tier = DUKE
+	tier = KING
+	tier = EMPEROR
+	}
+	}
+	random_realm_province = {
+	add_province_modifier = { name = adventurer_subversion duration = 180 }
+	owner = { character_event = { id = adventurer.54 days = 7 } }
+	}
+	}
+}
+}
+
+	option = {
+	name = "Liberty! Equality! Brotherhood!"
+	FROMFROMFROM={
+random_current_enemy = {
+	limit = { 
+	OR = {
+	tier = COUNT
+	tier = DUKE
+	tier = KING
+	tier = EMPEROR
+	}
+	}
+	random_realm_province = {
+	add_province_modifier = { name = adventurer_subversion duration = 180 }
+	owner = { character_event = { id = adventurer.54 days = 7 } }
+	}
+	}
+}
+}
+
+	option = {
+	name = "I'd best leave before the dying starts..."
+	FROMFROMFROM={
+random_current_enemy = {
+	limit = { 
+	OR = {
+	tier = COUNT
+	tier = DUKE
+	tier = KING
+	tier = EMPEROR
+	}
+	}
+	random_realm_province = {
+	add_province_modifier = { name = adventurer_subversion duration = 180 }
+	owner = { character_event = { id = adventurer.54 days = 7 } }
+	}
+	}
+}
+}
+
+}	
+
+#adventurers are instigating rebellions - taxes##
+	character_event = {
+    id = adventurer.52
+    title = "The Revolt"
+    desc = "During the last few weeks, you have been railing against the unfairness of high taxes. The peasants are listening, and you have convinced them that they should stop paying them immediately until they are lowered."
+    picture = "GFX_evt_peasants"
+	
+	is_triggered_only = yes	
+	
+	option = {
+	name = "Hah, my peasants actually pay more..."
+	FROMFROMFROM={
+random_current_enemy = {
+	limit = { 
+	OR = {
+	tier = COUNT
+	tier = DUKE
+	tier = KING
+	tier = EMPEROR
+	}
+	}
+	random_realm_province = {
+	add_province_modifier = { name = adventurer_subversion duration = 180 }
+	owner = { character_event = { id = adventurer.54 days = 7 } }
+	}
+	}
+}
+}
+
+	option = {
+	name = "No more gold for tyrants!"
+	FROMFROMFROM={
+random_current_enemy = {
+	limit = { 
+	OR = {
+	tier = COUNT
+	tier = DUKE
+	tier = KING
+	tier = EMPEROR
+	}
+	}
+	random_realm_province = {
+	add_province_modifier = { name = adventurer_subversion duration = 180 }
+	owner = { character_event = { id = adventurer.54 days = 7 } }
+	}
+	}
+}
+}
+
+	option = {
+	name = "Read my lips - no new taxes!"
+	FROMFROMFROM={
+random_current_enemy = {
+	limit = { 
+	OR = {
+	tier = COUNT
+	tier = DUKE
+	tier = KING
+	tier = EMPEROR
+	}
+	}
+	random_realm_province = {
+	add_province_modifier = { name = adventurer_subversion duration = 180 }
+	owner = { character_event = { id = adventurer.54 days = 7 } }
+	}
+	}
+}
+}
+
+	option = {
+	name = "I'd best leave before the dying starts..."
+	FROMFROMFROM={
+random_current_enemy = {
+	limit = { 
+	OR = {
+	tier = COUNT
+	tier = DUKE
+	tier = KING
+	tier = EMPEROR
+	}
+	}
+	random_realm_province = {
+	add_province_modifier = { name = adventurer_subversion duration = 180 }
+	owner = { character_event = { id = adventurer.54 days = 7 } }
+	}
+	}
+}
+}
+}	
+	
+#adventurers are instigating rebellions - demons##
+	character_event = {
+    id = adventurer.53
+    title = "The Revolt"
+    desc = "During the last few weeks, you have been fabricating evidence that their ruler is in league with demonic forces. They are frightened, and up in arms, vowing to burn this evil out of his castle."
+    picture = "GFX_evt_peasants"
+	
+	is_triggered_only = yes	
+	
+	option = {
+	name = "Hah - The only demonic force here is me!"
+	FROMFROMFROM={
+random_current_enemy = {
+	limit = { 
+	OR = {
+	tier = COUNT
+	tier = DUKE
+	tier = KING
+	tier = EMPEROR
+	}
+	}
+	random_realm_province = {
+	add_province_modifier = { name = adventurer_subversion duration = 180 }
+	owner = { character_event = { id = adventurer.54 days = 7 } }
+	}
+	}
+}
+}
+
+	option = {
+	name = "Kill the demons, kill them with fire!"
+	FROMFROMFROM={
+random_current_enemy = {
+	limit = { 
+	OR = {
+	tier = COUNT
+	tier = DUKE
+	tier = KING
+	tier = EMPEROR
+	}
+	}
+	random_realm_province = {
+	add_province_modifier = { name = adventurer_subversion duration = 180 }
+	owner = { character_event = { id = adventurer.54 days = 7 } }
+	}
+	}
+}
+}
+
+	option = {
+	name = "Your faith will protect you - to arms!"
+	FROMFROMFROM={
+random_current_enemy = {
+	limit = { 
+	OR = {
+	tier = COUNT
+	tier = DUKE
+	tier = KING
+	tier = EMPEROR
+	}
+	}
+	random_realm_province = {
+	add_province_modifier = { name = adventurer_subversion duration = 180 }
+	owner = { character_event = { id = adventurer.54 days = 7 } }
+	}
+	}
+}
+}
+
+	option = {
+	name = "I'd best leave before the dying starts..."
+	FROMFROMFROM={
+random_current_enemy = {
+	limit = { 
+	OR = {
+	tier = COUNT
+	tier = DUKE
+	tier = KING
+	tier = EMPEROR
+	}
+	}
+	random_realm_province = {
+	add_province_modifier = { name = adventurer_subversion duration = 180 }
+	owner = { character_event = { id = adventurer.54 days = 7 } }
+	}
+	}
+}
+}
+}
+
+#ruler is informed adventurers are spreading revolt#
+	character_event = {
+    id = adventurer.54
+    title = "Revolts"
+    desc = "It seems one of your enemies has hired a band of adventurers to instigate a peasant revolt in your demesne... let's hope they have more sense than to listen to such nonsense!"
+    picture = "GFX_evt_peasants"
+	
+	is_triggered_only = yes	
+	
+	option = {
+	name = "Cursed adventurers..."
+	}
+	
+	}
+	
+	#adventurers are assasinating the enemy marshall##
+	character_event = {
+    id = adventurer.55
+    title = "The Assassination"
+    desc = "During the last few weeks, you have been seeking ways to kill the enemy marshall. Finally, an opportunity presents itself during a moonless night..."
+    picture = "GFX_evt_shadow"
+	
+	is_triggered_only = yes	
+	
+	option = {
+	name = "Quietly... stealthily..."
+	FROMFROMFROM={
+random_current_enemy = {
+	limit = { 
+	independent = yes
+	}
+	random_courtier = {
+	limit = {
+	has_job_title = job_marshal
+	}
+	character_event = { id = adventurer.58 } 
+	}
+	}
+}
+}
+
+}
+
+	#adventurers are assasinating an enemy count##
+	character_event = {
+    id = adventurer.56
+    title = "The Assassination"
+    desc = "During the last few weeks, you have been seeking ways to kill an enemy count. Finally, an opportunity presents itself during a moonless night..."
+    picture = "GFX_evt_shadow"
+	
+	is_triggered_only = yes	
+	
+	option = {
+	name = "Quietly... stealthily..."
+	FROMFROMFROM={
+random_current_enemy = {
+	limit = { 
+	independent = yes
+	}
+	random_vassal = {
+	limit = {
+	tier = COUNT
+	}
+	character_event = { id = adventurer.66 } 
+	}
+	}
+}
+}
+
+}
+
+	#adventurers are assasinating an enemy count##
+	character_event = {
+    id = adventurer.57
+    title = "The Assassination"
+    desc = "During the last few weeks, you have been seeking ways to kill a large bunch of enemy notables. An opportunity presents itself, when you find a group of young enemy nobles drinking at a tavern, on the way to war."
+    picture = "GFX_evt_shadow"
+	
+	is_triggered_only = yes	
+	
+	option = {
+	name = "I'll kill them in their sleep!"
+	FROMFROMFROM={
+random_current_enemy = {
+	limit = { 
+	independent = yes
+	}
+	any_vassal = {
+	any_courtier = {
+	limit = {
+	AND = {
+	age = 16
+	NOT = { age = 19 }
+	}
+	}
+	character_event = { id = adventurer.69 } 
+	}
+	}
+	}
+}
+}
+
+	option = {
+	name = "I'll poison their wine."
+	FROMFROMFROM={
+random_current_enemy = {
+	limit = { 
+	independent = yes
+	}
+	any_vassal = {
+	any_courtier = {
+	limit = {
+	AND = {
+	age = 16
+	NOT = { age = 19 }
+	}
+	}
+	character_event = { id = adventurer.70 } 
+	}
+	}
+	}
+}
+}
+
+	option = {
+	name = "A well placed fireball spell, perhaps..."
+	FROMFROMFROM={
+random_current_enemy = {
+	limit = { 
+	independent = yes
+	}
+	any_vassal = {
+	any_courtier = {
+	limit = {
+	AND = {
+	age = 16
+	NOT = { age = 19 }
+	}
+	}
+	character_event = { id = adventurer.71 } 
+	}
+	}
+	}
+}
+}
+
+}
+
+	#adventurers are assasinating the enemy marshal - marshal is informed##
+	character_event = {
+    id = adventurer.58
+    title = "The Assassination"
+    desc = "During the night, you hear a thud outside your door. Like a body falling... the door creaps open, and an assassin sneaks in. Treachery!"
+    picture = "GFX_evt_shadow"
+	
+	is_triggered_only = yes	
+
+	option = {
+	name = "Guards! *prepare to defend yourself*"
+	random_list = {
+    50 = { 
+	FROM = { character_event = { id = adventurer.59  } }
+	random_list = {
+	5 = { 
+	add_trait = wounded 
+	}
+	20 = { 
+	add_trait = maimed 
+	}
+	75 = {   death = {
+		death_reason = death_battle
+				}
+				}
+	}
+	}
+	50 = { 
+	FROM = { character_event = { id = adventurer.60  } }
+	}
+	}
+	}
+	}
+	
+	#adventurers are assasinating the enemy marshall - success, adventurers pov##
+	character_event = {
+    id = adventurer.59
+    title = "The Assassination "
+    desc = "You quietly dispatch the guard in front of the marshall's door, and catch him at unawares in bed! You rush towards him, and deliver a mortal blow before he can react, and then escape out the window."
+    picture = "GFX_evt_shadow"
+	
+	is_triggered_only = yes	
+	
+	option = {
+	name = "Hah! Too easy!"
+	}
+	
+	option = {
+	name = "Better him dead, if it helps end the war."
+	}
+	
+}
+
+	#adventurers are assasinating the enemy marshall - failure, adventurers pov##
+	character_event = {
+    id = adventurer.60
+    title = "The Assassination"
+    desc = "As you sneak into the marshall's quarters after dispatching the guard, he hears you, and rushes out of bed screaming for the guards! He sleeps in his armor, and comes at you wielding a longsword!"
+    picture = "GFX_evt_shadow"
+	
+	is_triggered_only = yes	
+	
+	option = {
+	name = "Damnations! Time to run!"
+random_list = {
+	70 = { 
+	}
+	25 = { 
+	add_trait = wounded 
+	}
+	5 = {   death = {
+		death_reason = death_battle
+				}
+				}
+	}
+	FROM = { character_event = { id = adventurer.61 } } ##event where marshall is told he will live because assassin ran##
+	}
+	
+	option = {
+	name = "Damnations! But there's still time!"
+		if = {
+	    limit = {
+        OR = {
+trait = amateur_bard 
+trait = novice_bard 
+trait = trained_bard 
+trait = amateur_mage 
+trait = novice_mage
+trait = trained_mage
+trait = amateur_priest
+trait = novice_priest
+trait = trained_priest
+trait = amateur_ranger
+trait = novice_ranger
+trait = trained_ranger
+trait = amateur_rogue
+trait = novice_rogue
+trait = trained_rogue
+trait = amateur_fighter
+trait = novice_fighter
+trait = trained_fighter
+trait = amateur_sorcerer
+trait = novice_sorcerer
+trait = trained_sorcerer
+                }
+				}
+	random_list = {
+    80 = { FROM = { character_event = { id = adventurer.62  } } } ##marshall survives after a fight, assassin gets away##
+	20 = { 
+	character_event = { id = adventurer.64  } ##assassin kills marshall, and gets away, adventurer pov##
+	FROM = { character_event = { id = adventurer.63  } }  ##assassin kills marshall, and gets away, marshall pov##
+	}
+	}
+	}
+	if = {
+	    limit = {
+                    OR = {
+trait = master_bard 
+trait = legendary_bard 
+trait = master_mage
+trait = legendary_mage
+trait = master_priest
+trait = legendary_priest
+trait = master_ranger
+trait = legendary_ranger
+trait = master_rogue
+trait = legendary_rogue
+trait = master_fighter
+trait = legendary_fighter
+trait = master_sorcerer
+trait = legendary_sorcerer 
+                }
+				}
+	random_list = {
+    15 = { 
+	FROM = { character_event = { id = adventurer.62  } }  ##marshall survives fight, assassin gets away##
+	}
+	85 = { 
+	character_event = { id = adventurer.64  } ##assassin kills marshall, and gets away, adventurer pov##
+	FROM = { character_event = { id = adventurer.63  } } ##marshall dies, assassin gets away, marshall pov##
+	} 
+	}
+	}
+	}		
+	}
+	
+	
+
+
+	#adventurers are assasinating the enemy marshall - failure, adventurers run away, marshall pov##
+	character_event = {
+    id = adventurer.61
+    title = "The Assassination"
+    desc = "You heard the assassin coming, and seeing that you are awake and prepared to fight, the shadowy figure quickly disappears into the night!"
+    picture = "GFX_evt_shadow"
+	
+	is_triggered_only = yes	
+	
+	option = {
+	name = "That was a close call!"
+	}
+	
+	}
+	
+	#adventurers are assasinating the enemy marshall - discovered, adventurers fight, marshall pov##
+	character_event = {
+    id = adventurer.62
+    title = "The Assassination"
+    desc = "You heard the assassin coming, and after a quick struggle where neither of you can gain the advantage, the assassin thinks better of it, and runs away!!"
+    picture = "GFX_evt_shadow"
+	
+	is_triggered_only = yes	
+	
+	option = {
+	name = "That was a close call!"
+	FROM = { character_event = { id = adventurer.65 } } ##adventurer is told he has lost the fight, and flees#
+	}
+	
+	}	
+	
+	#adventurers are assasinating the enemy marshall - discovered, adventurers fight, marshall pov##
+	character_event = {
+    id = adventurer.63
+    title = "The Assassination"
+    desc = "The assassin enters your quarters, and comes right at you! You only see a shadowy figure clothed in black, before you feel a sharp pain and then... blackness!"
+    picture = "GFX_evt_shadow"
+	
+	is_triggered_only = yes	
+	
+	option = {
+	name = "Nooo!"
+random_list = {
+	15 = { 
+	add_trait = maimed 
+	}
+	85 = {   death = {
+		death_reason = death_battle
+				}
+				}
+	}	
+	}
+	
+	}
+	
+	#adventurers are assasinating the enemy marshall - discovered, adventurers fight, adventurer pov##
+	character_event = {
+    id = adventurer.64
+    title = "The Assassination"
+    desc = "You enter the target's quarters and decide to fight, despite being discovered. A swift and furious struggle ensues, but finally the marshall is dealt a deadly blow just as you hear the guards come running down the corridor."
+    picture = "GFX_evt_shadow"
+	
+	is_triggered_only = yes	
+	
+	option = {
+	name = "Run!"
+random_list = {
+	15 = { 
+	add_trait = wounded 
+	}
+	5 = {   death = {
+		death_reason = death_battle
+				}
+				}
+	80 = { 
+	add_trait = wounded 
+	}	
+	}	
+	}
+	
+	}
+	
+	#adventurers are assasinating the enemy marshall - discovered, adventurers fight, adventurer pov, loss##
+	character_event = {
+    id = adventurer.65
+    title = "The Assassination"
+    desc = "You enter the target's quarters and decide to fight, despite being discovered. A swift and furious struggle ensues, you cannot quickly dispatch him! Guards are coming now, the castle bells are ringing..."
+    picture = "GFX_evt_shadow"
+	
+	is_triggered_only = yes	
+	
+	option = {
+	name = "Run!"
+random_list = {
+	15 = { 
+	add_trait = wounded 
+	}
+	5 = {   death = {
+		death_reason = death_battle
+				}
+				}
+	80 = { 
+	add_trait = wounded 
+	}	
+	}	
+	}
+	}
+	
+	#adventurers are assasinating the enemy COUNT - count is informed##
+	character_event = {
+    id = adventurer.66
+    title = "The Assassination"
+    desc = "During the night, you hear a thud outside your door. Like a body falling... the door creaps open, and an assassin sneaks in. Treachery!"
+    picture = "GFX_evt_shadow"
+	
+	is_triggered_only = yes	
+
+	option = {
+	name = "Guards! *prepare to defend yourself*"
+	random_list = {
+    50 = { 
+	FROM = { character_event = { id = adventurer.67  } }
+	random_list = {
+	5 = { 
+	add_trait = wounded 
+	}
+	20 = { 
+	add_trait = maimed 
+	}
+	75 = {   death = {
+		death_reason = death_battle
+				}
+				}
+	}
+	}
+	50 = { 
+	FROM = { character_event = { id = adventurer.68  } }
+	}
+	}
+	}
+	}
+	
+	#adventurers are assasinating the enemy counts - success, adventurers pov##
+	character_event = {
+    id = adventurer.67
+    title = "The Assassination "
+    desc = "You quietly dispatch the guard in front of the count's door, and catch him at unawares in bed! You rush towards him, and deliver a mortal blow before he can react, and then escape out the window."
+    picture = "GFX_evt_shadow"
+	
+	is_triggered_only = yes	
+	
+	option = {
+	name = "Hah! Too easy!"
+	}
+	
+	option = {
+	name = "Better him dead, if it helps end the war."
+	}
+	
+}
+
+	#adventurers are assasinating the enemy count - failure, adventurers pov##
+	character_event = {
+    id = adventurer.68
+    title = "The Assassination"
+    desc = "As you sneak into the count's quarters after dispatching the guard, he hears you, and rushes out of bed screaming for the guards! He sleeps in his armor, and comes at you wielding a longsword!"
+    picture = "GFX_evt_shadow"
+	
+	is_triggered_only = yes	
+	
+	option = {
+	name = "Damnations! Time to run!"
+random_list = {
+	70 = { 
+	}
+	25 = { 
+	add_trait = wounded 
+	}
+	5 = {   death = {
+		death_reason = death_battle
+				}
+				}
+	}
+	FROM = { character_event = { id = adventurer.61 } } ##event where marshall is told he will live because assassin ran##
+	}
+	
+	option = {
+	name = "Damnations! But there's still time!"
+		if = {
+	    limit = {
+        OR = {
+trait = amateur_bard 
+trait = novice_bard 
+trait = trained_bard 
+trait = amateur_mage 
+trait = novice_mage
+trait = trained_mage
+trait = amateur_priest
+trait = novice_priest
+trait = trained_priest
+trait = amateur_ranger
+trait = novice_ranger
+trait = trained_ranger
+trait = amateur_rogue
+trait = novice_rogue
+trait = trained_rogue
+trait = amateur_fighter
+trait = novice_fighter
+trait = trained_fighter
+trait = amateur_sorcerer
+trait = novice_sorcerer
+trait = trained_sorcerer
+                }
+				}
+	random_list = {
+    80 = { FROM = { character_event = { id = adventurer.62  } } } ##marshall survives after a fight, assassin gets away##
+	20 = { 
+	character_event = { id = adventurer.64  } ##assassin kills marshall, and gets away, adventurer pov##
+	FROM = { character_event = { id = adventurer.63  } }  ##assassin kills marshall, and gets away, marshall pov##
+	}
+	}
+	}
+	if = {
+	    limit = {
+                    OR = {
+trait = master_bard 
+trait = legendary_bard 
+trait = master_mage
+trait = legendary_mage
+trait = master_priest
+trait = legendary_priest
+trait = master_ranger
+trait = legendary_ranger
+trait = master_rogue
+trait = legendary_rogue
+trait = master_fighter
+trait = legendary_fighter
+trait = master_sorcerer
+trait = legendary_sorcerer 
+                }
+				}
+	random_list = {
+    15 = { 
+	FROM = { character_event = { id = adventurer.62  } }  ##marshall survives fight, assassin gets away##
+	}
+	85 = { 
+	character_event = { id = adventurer.64  } ##assassin kills marshall, and gets away, adventurer pov##
+	FROM = { character_event = { id = adventurer.63  } } ##marshall dies, assassin gets away, marshall pov##
+	} 
+	}
+	}
+	}		
+	}
+	
+	#adventurers are assasinating random nobles - enemy pov, kill during night##
+	character_event = {
+    id = adventurer.69
+    title = "The Assassination"
+    desc = "After a night of drinking, you sleep in a tavern with other young nobles, on the way to the front lines of the war. A door creaks open and..."
+    picture = "GFX_evt_shadow"
+	
+	is_triggered_only = yes		
+	
+	option = {
+	name = "Assassins! I hope I survive!"
+random_list = {
+	10 = { 
+	add_trait = wounded 
+	}
+	20 = { 
+	add_trait = maimed 
+	}
+	70 = {  
+	death = {
+		death_reason = death_battle
+				}	
+	FROM = { character_event = { id = adventurer.72  } }
+
+				}
+				}
+				}
+				
+				}
+				
+
+	#adventurers are assasinating random nobles - enemy pov, poison##
+	character_event = {
+    id = adventurer.70
+    title = "The Assassination"
+    desc = "You are drinking at a tavern, and some strangers approach and engage you in talk. Suddenly you feel lightheaded, and notice a white substance in your wine... you feel faint, ill, and your heart is racing!"
+    picture = "GFX_evt_shadow"
+	
+	is_triggered_only = yes		
+	
+	option = {
+	name = "Poison! I hope I survive!"
+random_list = {
+	30 = { 
+	}
+	70 = {   
+	FROM = { character_event = { id = adventurer.73  } }
+	death = {
+		death_reason = death_battle
+				}
+				}
+				}
+				}
+				}
+				
+				
+	#adventurers are assasinating random nobles - enemy pov, poison##
+	character_event = {
+    id = adventurer.71
+    title = "The Assassination"
+    desc = "Suddenly you are drinking in a tavern with some friends, and a wizard starts chanting. You have only a moment to turn your head, and then a massive fireball approaches!"
+    picture = "GFX_evt_shadow"
+	
+	is_triggered_only = yes		
+	
+	option = {
+	name = "An assassination! I hope I survive!"
+random_list = {
+	30 = { 
+	}
+	70 = {   
+	FROM = { character_event = { id = adventurer.74  } }
+	death = {
+		death_reason = death_battle
+				}
+				}
+				}
+				}
+				}
+				
+	
+	#adventurers are assasinating random nobles - player pov, kill during night##
+	character_event = {
+    id = adventurer.72
+    title = "The Assassination"
+    desc = "After the group retires to the night, you and your party sneak into their quarters, aiming to kill them in their sleep. This one dies!"
+    picture = "GFX_evt_shadow"
+	
+	is_triggered_only = yes		
+	
+	option = {
+	name = "Success!"
+				}
+				
+				}
+	
+	#adventurers are assasinating random nobles - player pov, poison##
+	character_event = {
+    id = adventurer.73
+    title = "The Assassination"
+    desc = "You engage the group of young nobles, drinking and swapping tales, and all the while adding a deadly poison to your drinks whenever you can. It is slow acting, and the next morning, this one has died!"
+    picture = "GFX_evt_shadow"
+	
+	is_triggered_only = yes		
+	
+	option = {
+	name = "Time to leave!"
+				}
+				
+				}
+				
+	#adventurers are assasinating random nobles - player pov, fireball##
+	character_event = {
+    id = adventurer.74
+    title = "The Assassination"
+    desc = "You are not the subtle type. Seeing a group of enemy nobles, you or your party wizard starts casting a fireball spell directly towards them. Panic erupts in the tavern and the flames are spreadign. This one has died!"
+    picture = "GFX_evt_shadow"
+	
+	is_triggered_only = yes		
+	
+	option = {
+	name = "Time to leave!"
+	add_trait = cruel
+				}
+				
+				}
+	
+	#end of contract after 6 months##
+	character_event = {
+    id = adventurer.75
+    title = "End of the Contract"
+    desc = "Six months have passed, and your mercenary contract period is over. You can now return to normal adventuring, or take another contract with a different ruler."
+    picture = "GFX_evt_council"
+	
+	is_triggered_only = yes		
+	
+	option = {
+	name = "OK"
+	remove_trait = on_current_quest
+				}
+				
+				}
+				
+	#special forces, lead from front##
+	character_event = {
+    id = adventurer.76
+    title = "Battles Ahead"
+    desc = "The campaign reaches a critical point, and your group of adventurers is needed at a key moment. Leading from the front, you rush in to plug a hole in the battle line that you can see is developing!"
+    picture ="GFX_evt_battle"
+	
+	is_triggered_only = yes		
+	
+	option = {
+	name = "Forwards!"
+		if = {
+	    limit = {
+        OR = {
+trait = amateur_bard 
+trait = novice_bard 
+trait = trained_bard 
+trait = amateur_mage 
+trait = novice_mage
+trait = trained_mage
+trait = amateur_priest
+trait = novice_priest
+trait = trained_priest
+trait = amateur_ranger
+trait = novice_ranger
+trait = trained_ranger
+trait = amateur_rogue
+trait = novice_rogue
+trait = trained_rogue
+trait = amateur_fighter
+trait = novice_fighter
+trait = trained_fighter
+trait = amateur_sorcerer
+trait = novice_sorcerer
+trait = trained_sorcerer
+                }
+				}
+	random_list = {
+	75 = { }
+	15 = { 
+	add_trait = wounded 
+	character_event = { id = adventurer.8 }
+	}
+	5 = { 
+	add_trait = maimed 
+	character_event = { id = adventurer.8 }	
+	}
+	5 = {   death = {
+		death_reason = death_battle
+				}
+				}
+				}
+				}
+	if = {
+	    limit = {
+                    OR = {
+trait = master_bard 
+trait = legendary_bard 
+trait = master_mage
+trait = legendary_mage
+trait = master_priest
+trait = legendary_priest
+trait = master_ranger
+trait = legendary_ranger
+trait = master_rogue
+trait = legendary_rogue
+trait = master_fighter
+trait = legendary_fighter
+trait = master_sorcerer
+trait = legendary_sorcerer 
+                }
+				}
+	random_list = {
+	85 = { }
+	10 = { 
+	add_trait = wounded 
+	character_event = { id = adventurer.8 }
+	}
+	3 = { 
+	add_trait = maimed 
+	character_event = { id = adventurer.8 }	
+	}
+	2 = {   death = {
+		death_reason = death_battle
+				}
+				}
+				}
+	}
+	}
+	
+}
+		
+	#special forces, lead from center##
+	character_event = {
+    id = adventurer.77
+    title = "Battles Ahead"
+    desc = "The campaign reaches a critical point, and your group of adventurers is needed at a key moment. With your men forming a perimeter around you, you rush in to plug a hole in the battle line that you can see is developing!"
+    picture ="GFX_evt_battle"
+	
+	is_triggered_only = yes		
+	
+	option = {
+	name = "Forwards!"
+		if = {
+	    limit = {
+        OR = {
+trait = amateur_bard 
+trait = novice_bard 
+trait = trained_bard 
+trait = amateur_mage 
+trait = novice_mage
+trait = trained_mage
+trait = amateur_priest
+trait = novice_priest
+trait = trained_priest
+trait = amateur_ranger
+trait = novice_ranger
+trait = trained_ranger
+trait = amateur_rogue
+trait = novice_rogue
+trait = trained_rogue
+trait = amateur_fighter
+trait = novice_fighter
+trait = trained_fighter
+trait = amateur_sorcerer
+trait = novice_sorcerer
+trait = trained_sorcerer
+                }
+				}
+	random_list = {
+	75 = { }
+	20 = { 
+	add_trait = wounded 
+	character_event = { id = adventurer.8 }
+	}
+	3 = { 
+	add_trait = maimed 
+	character_event = { id = adventurer.8 }	
+	}
+	2 = {   death = {
+		death_reason = death_battle
+				}
+				}
+				}
+				}
+	if = {
+	    limit = {
+                    OR = {
+trait = master_bard 
+trait = legendary_bard 
+trait = master_mage
+trait = legendary_mage
+trait = master_priest
+trait = legendary_priest
+trait = master_ranger
+trait = legendary_ranger
+trait = master_rogue
+trait = legendary_rogue
+trait = master_fighter
+trait = legendary_fighter
+trait = master_sorcerer
+trait = legendary_sorcerer 
+                }
+				}
+	random_list = {
+	85 = { }
+	12 = { 
+	add_trait = wounded 
+	character_event = { id = adventurer.8 }
+	}
+	2 = { 
+	add_trait = maimed 
+	character_event = { id = adventurer.8 }	
+	}
+	1 = {   death = {
+		death_reason = death_battle
+				}
+				}
+				}
+	}
+	}
+	
+}		
+
+	#special forces, lead from rear##
+	character_event = {
+    id = adventurer.78
+    title = "Battles Ahead"
+    desc = "The campaign reaches a critical point, and your group of adventurers is needed at a key moment. Gathering your men, you order them to rush ahead to plug a hole in the battle line that you can see is developing!"
+    picture ="GFX_evt_battle"
+	
+	is_triggered_only = yes		
+	
+	option = {
+	name = "Attack men! I'll stay here."
+		if = {
+	    limit = {
+        OR = {
+trait = amateur_bard 
+trait = novice_bard 
+trait = trained_bard 
+trait = amateur_mage 
+trait = novice_mage
+trait = trained_mage
+trait = amateur_priest
+trait = novice_priest
+trait = trained_priest
+trait = amateur_ranger
+trait = novice_ranger
+trait = trained_ranger
+trait = amateur_rogue
+trait = novice_rogue
+trait = trained_rogue
+trait = amateur_fighter
+trait = novice_fighter
+trait = trained_fighter
+trait = amateur_sorcerer
+trait = novice_sorcerer
+trait = trained_sorcerer
+                }
+				}
+	random_list = {
+	92 = { }
+	5 = { 
+	add_trait = wounded 
+	character_event = { id = adventurer.8 }
+	}
+	2 = { 
+	add_trait = maimed 
+	character_event = { id = adventurer.8 }	
+	}
+	1 = {   death = {
+		death_reason = death_battle
+				}
+				}
+				}
+				}
+	if = {
+	    limit = {
+                    OR = {
+trait = master_bard 
+trait = legendary_bard 
+trait = master_mage
+trait = legendary_mage
+trait = master_priest
+trait = legendary_priest
+trait = master_ranger
+trait = legendary_ranger
+trait = master_rogue
+trait = legendary_rogue
+trait = master_fighter
+trait = legendary_fighter
+trait = master_sorcerer
+trait = legendary_sorcerer 
+                }
+				}
+	random_list = {
+	92 = { }
+	5 = { 
+	add_trait = wounded 
+	character_event = { id = adventurer.8 }
+	}
+	3 = { 
+	add_trait = maimed 
+	character_event = { id = adventurer.8 }	
+	}
+	1 = {   death = {
+		death_reason = death_battle
+				}
+				}
+				}
+	}
+	}
+	
+}	
+
+	#######################################
+	####Trained to Master Difficulty Quests#########
+	#######################################
+				
+	##giant tribe quest##
+	character_event = {
+    id = adventurer.79
+    title = "Giant Tribe"
+    desc = "While visiting a tavern, the townspeople beg you to help them dispatch a small tribe of giants that has been stealing their cattle. This is a dangerous quest, but you will never achieve mastery without taking risks..."
+    picture = "GFX_evt_feast"	
+	
+	trigger = {
+	AND = {
+	trait = adventuring
+	NOT = { trait = on_current_quest }
+	prisoner = no
+	}
+        OR = {
+trait = trained_bard 
+trait = trained_mage
+trait = trained_priest
+trait = trained_ranger
+trait = trained_rogue
+trait = trained_fighter
+trait = trained_sorcerer
+                }	
+				}
+
+mean_time_to_happen = {
+years = 1
+		modifier = {
+			factor = 2
+			has_character_flag = adventurer79
+		}
+}
+
+option = {
+name = "We can take em down..."
+set_character_flag = adventurer79
+add_trait = on_current_quest
+character_event = { id = adventurer.80 days = 7 }
+}
+
+option = {
+name = "No, giants are too much for us."
+trigger = { ai = no }
+set_character_flag = adventurer79
+}
+
+}
+
+	character_event = {
+    id = adventurer.80
+    title = "Giant Tribe"
+    desc = "After a week of searching, you finally come upon the giant tribe. There are a dozen of them, and they don't seem to have spotted you yet..."
+    picture = "GFX_evt_bandits"	
+	
+	is_triggered_only = yes
+	
+	option = {
+	name = "Charge!"
+	random_list = {
+    25 = { character_event = { id = adventurer.81  } }
+	75 = { character_event = { id = adventurer.82 } }
+	}
+	}
+	
+	option = {
+	name = "No, wait, let's not do this..."
+	trigger = { ai = no }
+	remove_trait = on_current_quest
+	prestige = -50
+	}
+	
+	}
+	
+	#giants success#
+	character_event = {
+    id = adventurer.81
+    title = "The Battle"
+    desc = "You prepare as best you can, and then engage this most dangerous enemy. The giants quickly spring into action, but your long adventuring career has prepared you for such dangers - you finally slay the last of them!"
+    picture = "GFX_evt_battle"
+
+	is_triggered_only = yes
+	
+	option = {
+	name = "Is everyone ok?"
+	remove_trait = on_current_quest
+	wealth = 75
+	random = {
+	chance = 50
+	add_trait = wounded
+	}	
+	if = {
+	limit = { trait = trained_fighter }
+random = {
+	chance = 50
+	remove_trait = trained_fighter
+	add_trait = master_fighter
+	}
+	}
+	if = {
+	limit = { trait = trained_rogue }
+random = {
+	chance = 25
+	remove_trait = trained_rogue
+	add_trait = master_rogue
+	}
+	}
+	if = {
+	limit = { trait = trained_sorcerer }
+random = {
+	chance = 25
+	remove_trait = trained_sorcerer
+	add_trait = master_sorcerer
+	}
+	}
+	if = {
+	limit = { trait = trained_priest }
+random = {
+	chance = 25
+	remove_trait = trained_priest
+	add_trait = master_priest
+	}
+	}
+	if = {
+	limit = { trait = trained_ranger }
+random = {
+	chance = 25
+	remove_trait = trained_ranger
+	add_trait = master_ranger
+	}
+	}
+	if = {
+	limit = { trait = trained_bard }
+random = {
+	chance = 25
+	remove_trait = trained_bard
+	add_trait = master_bard
+	}
+	}	
+	if = {
+	limit = { trait = trained_mage }
+random = {
+	chance = 25
+	remove_trait = trained_mage
+	add_trait = master_mage
+	}
+	}	
+	}
+	
+	}
+
+	#giants defeat#
+	character_event = {
+    id = adventurer.82
+    title = "The Battle"
+    desc = "You engage the giants, but one of them is a priest of terrible power - Lightning cracks from the sky, and elementals are summoned to their aid - you have no chance of victory here!"
+    picture = "GFX_evt_battle"
+
+	is_triggered_only = yes
+	
+	option = {
+	name = "Run!"
+	remove_trait = on_current_quest
+		random_list = {	
+	40 = { 
+	add_trait = wounded 
+	}
+	40 = { 
+	add_trait = maimed 
+	}
+	20 = {   death = {
+		death_reason = death_battle
+				}
+				}
+				}
+				}
+				
+				}
+				
+				
+
+	#######################################
+	####Class specific events##############
+	#######################################
+
+	
+	
+	##########################################
+	####Random adventurer flavor events#######
+	##########################################

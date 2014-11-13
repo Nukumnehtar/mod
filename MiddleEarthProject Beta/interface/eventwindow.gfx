@@ -1591,6 +1591,11 @@ spriteTypes =
 		texturefile = "gfx\\event_pictures\\hobbitsmial.tga"
 		allwaystransparent = yes
 	}
+	spriteType = {
+		name = "GFX_evt_troll"
+		texturefile = "gfx\\event_pictures\\troll.tga"
+		allwaystransparent = yes
+	}
 }
 
 

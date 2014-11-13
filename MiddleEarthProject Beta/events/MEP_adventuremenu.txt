@@ -1,0 +1,110 @@
+namespace = adventuremenu
+
+	#choose to go, or leave, adventuring life for player regent#
+	character_event = {
+		id = adventuremenu.0
+		title = EVTTITadventuremenu.0
+		desc = EVTDESCadventuremenu.0
+		picture = "GFX_evt_council"
+	
+		is_triggered_only = yes
+	
+		option = {
+			name = EVTOPTAadventuremenu.0
+			add_trait = adventuring
+			trigger = {
+				NOT = {
+					trait = adventuring
+				}
+			}
+		}
+	
+		option = {
+			name = EVTOPTBadventuremenu.0
+			remove_trait = adventuring
+			remove_trait = on_current_quest
+			trigger = {
+				trait = adventuring
+			}
+		}
+	
+		option = {
+			name = EVTOPTCadventuremenu.0
+			character_event = { id = adventuremenu.1 }
+		}
+		
+		option = {
+			name = EVTOPTDadventuremenu.0
+		}
+	
+	}
+
+	#choose to go, or leave, adventuring life for player regent#
+	character_event = {
+		id = adventuremenu.1
+		title = EVTTITadventuremenu.1
+		desc = EVTDESCadventuremenu.1
+		picture = "GFX_evt_council"
+		
+		is_triggered_only = yes
+	
+		option = {
+			name = EVTOPTAadventuremenu.1
+		}
+
+	}
+	
+	#kids who get the adventurer title also get the trait#
+	character_event = {
+		id = adventuremenu.2
+		title = EVTTITadventuremenu.2
+		desc = EVTDESCadventuremenu.2
+		picture = "GFX_evt_council"	
+	
+		trigger = {
+			has_minor_title = title_adventurer
+			NOT = { trait = adventuring }
+			age = 15
+		}
+	
+		mean_time_to_happen = {
+			days = 7
+		}
+	
+		option = {
+			name = EVTOPTAadventuremenu.2
+			add_trait = adventuring
+			set_character_flag = adventureforced
+		}
+	
+	}
+	
+	#kids who get the adventurer title also get the trait#
+	character_event = {
+		id = adventuremenu.3
+		title = EVTTITadventuremenu.3
+		desc = EVTDESCadventuremenu.3
+		picture = "GFX_evt_council"	
+	
+		trigger = {
+			AND = {
+				NOT = { has_minor_title = title_adventurer }
+				trait = adventuring
+				age = 15
+				has_character_flag = adventureforced
+			}
+		}
+	
+		mean_time_to_happen = {
+			days = 30
+		}
+	
+		option = {
+			name = EVTOPTAadventuremenu.3
+			remove_trait = adventuring
+			remove_trait = on_current_quest
+			clr_character_flag = adventureforced
+		}
+	
+	}
+	

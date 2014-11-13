@@ -1,0 +1,32 @@
+#CODE;ENGLISH;FRENCH;GERMAN;SPANISH;x
+#ADVENTURE MENU EVENTS
+EVTTITadventuremenu.0;Adventuring;;;;x
+EVTDESCadventuremenu.0;Though you are a ruler, you can still go adventuring in search of fame, glory, and experience. You will leave the affairs of state to a regent who will act in your stead while you are away.;;;;x
+EVTOPTAadventuremenu.0;Yes, I will go adventuring.;;;;x
+EVTOPTBadventuremenu.0;I will return home.;;;;x
+EVTOPTCadventuremenu.0;How do I encourage my kids to go adventuring?;;;;x
+EVTOPTDadventuremenu.0;Nevermind.;;;;x
+EVTTITadventuremenu.1;Adventuring;;;;x
+EVTDESCadventuremenu.1;If your children have military training and are unlanded, you can give them the honorary title of 'Adventurer' and they will leave. If you remove it, they will return.;;;;x
+EVTOPTAadventuremenu.1;OK.;;;;x
+EVTTITadventuremenu.2;Adventuring;;;;x
+EVTDESCadventuremenu.2;Your parents have encouraged you to go adventuring and find fame and fortune. As you are unlanded, you have little choice in the matter.;;;;x
+EVTOPTAadventuremenu.2;So be it.;;;;x
+EVTTITadventuremenu.3;Adventuring;;;;x
+EVTDESCadventuremenu.3;Your parents have told you to come home and stop adventuring. As you are unlanded, you have little choice in the matter.;;;;x
+EVTOPTAadventuremenu.3;So be it.;;;;x
+#TROLL LAIR EVENT
+EVTTITadventurer.13;Rumours;;;;x
+EVTDESCadventurer.13;While camping in the wilderness of your lands, you men bring you news from a nearby hamlet. There is rumored to be a troll lair in the area. Do you want to investigate?;;;;x
+EVTOPTAadventurer.13;Let's go at once.;;;;x
+EVTOPTBadventurer.13;We cannot handle trolls!;;;;x
+EVTTITadventurer.14;The Cave;;;;x
+EVTDESCadventurer.14;After a week of searching, you and your men finally come upon some troll tracks which lead to a dark cave. After making sure the coast is clear and mustering your men, you prepare to destroy this threat to the local community.;;;;x
+EVTOPTAadventurer.14;Give me a torch!;;;;x
+EVTOPTBadventurer.14;H-hang on! Let's not do this.;;;;x
+EVTTITadventurer.15;Troll Lair;;;;x
+EVTDESCadventurer.15;You march into the darkness of the troll lair, and though they are strong opponents, they are no match for your party's superior skill and tactics. After slaying half a dozen of them, you find their hoard and quickly claim it.;;;;x
+EVTOPTAadventurer.15;Well fought men.;;;;x
+EVTTITadventurer.16;Troll Lair;;;;x
+EVTDESCadventurer.16;You march the darkness of the troll lair, and quickly find yourself in trouble. Six of them descend upon your party all at once, and you are hard pressed to make it back to the exit alive!;;;;x
+EVTOPTAadventurer.16;Retreat!;;;;x

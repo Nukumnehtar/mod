@@ -1,0 +1,13 @@
+adventuring = {
+	diplomacy = -15
+	intrigue = -15
+	martial = -15
+	stewardship = -15
+	pilgrimage = yes
+	fertility = -0.3
+	monthly_character_prestige = 1.0
+}
+
+on_current_quest = {
+	monthly_character_prestige = 2.0
+}

@@ -1,0 +1,562 @@
+##Events to determine who becomes an adventurer, and what will make them stop##
+
+namespace = adventuring
+
+	#AI adventurers are generated from sons of dukes or kings+ only to prevent spam#
+	character_event = {
+		id = adventuring.0
+		title = EVTTITadventuring.0
+		desc = EVTDESCadventuring.0
+		picture = "GFX_evt_council"
+	
+		trigger = {
+			age = 15
+			NOT = { age = 45 }
+			NOT = { has_character_flag = retired }
+			NOT = { has_character_flag = adventuring0 }
+			is_landed = no
+			is_primary_heir = no
+			ai = yes
+			NOT = { trait = maimed }
+			OR = {
+				trait = ambitious
+				trait = brave
+			}
+			OR = {
+				trait = good_rider
+				trait = great_rider
+				trait = horse_master
+				trait = amroth_knight
+				trait = ithilien_ranger
+				trait = ithilien_captain
+				trait = orc_warrior
+				trait = strong_orc
+				trait = great_orc
+				trait = trained_elf
+				trait = great_elf
+				trait = legendary_warrior
+				trait = mumakil_groom
+				trait = mumakil_rider
+				trait = mumakil_commander
+				trait = trained_dwarf
+				trait = great_axeman
+				trait = dragon_slayer
+				trait = dunedain_ranger
+				trait = dunedain_captain
+				trait = grey_member
+				trait = skilled_bowman
+				trait = great_bowman
+				trait = master_bowman
+			}
+			OR = {
+				culture_group = culture_group_edain
+				culture_group = culture_group_middlemen
+				culture_group = culture_group_forodwaith
+				culture_group = culture_group_haldadian
+				culture_group = culture_group_southron
+				culture_group = culture_group_easterling
+				culture_group = culture_group_numenorean
+				culture_group = culture_group_dwarves
+				culture_group = culture_group_quendi
+				culture_group = culture_group_amanyar
+				culture_group = culture_group_moriquendi
+				culture_group = culture_group_umanyar
+				culture_group = culture_group_eru
+				culture_group = culture_group_melkor
+			}
+			OR = {
+				OR = {
+					father_even_if_dead = {
+						OR = {
+							tier = COUNT
+							tier = DUKE
+							tier = KING
+							tier = EMPEROR
+						}
+					}
+				}
+				OR = {
+					mother_even_if_dead = {
+						OR = {
+							tier = COUNT
+							tier = DUKE
+							tier = KING
+							tier = EMPEROR
+						}
+					}
+				}
+			}
+		}
+	
+		mean_time_to_happen = {
+			days = 30
+		}
+	
+		option = {
+			name = EVTOPTAadventuring.0
+			
+			father = { character_event = { id = adventuring.3 } }
+			mother = { character_event = { id = adventuring.3 } }
+			add_trait = adventuring
+			set_character_flag = adventuring0
+		}
+	
+	}
+	
+	#after age 35, Men adventurers begin to retire#
+	character_event = {
+		id = adventuring.1
+		title = EVTTITadventuring.1
+		desc = EVTDESCadventuring.1
+		picture = "GFX_evt_council"
+	
+		trigger = {
+			age = 35
+			trait = adventuring
+			has_character_flag = adventuring0
+			ai = yes
+			OR = {
+				culture_group = culture_group_edain
+				culture_group = culture_group_middlemen
+				culture_group = culture_group_forodwaith
+				culture_group = culture_group_haldadian
+				culture_group = culture_group_southron
+				culture_group = culture_group_easterling
+				culture_group = culture_group_numenorean
+			}
+			NOT = {
+				trait = blood_of_numenor
+				trait = blood_of_numenor2
+				trait = blood_of_isildur
+				trait = blood_of_anarion
+			}
+		}
+
+		mean_time_to_happen = {
+			years = 10
+		}
+
+		option = {
+			name = EVTOPTAadventuring.1
+			remove_trait = adventuring
+		}
+
+	}
+
+	#after age 35, adventurers begin to retire#
+	character_event = {
+		id = adventuring.2
+		title = EVTTITadventuring.2
+		desc = EVTDESCadventuring.2
+		picture = "GFX_evt_recovery"
+	
+		trigger={
+			trait = maimed
+			trait = adventuring
+		}
+
+		mean_time_to_happen = {
+			days = 7
+		}
+
+		option = {
+			name = EVTOPTAadventuring.2
+			remove_trait = adventuring
+			father = { character_event = { id = adventuring.7 } }
+			mother = { character_event = { id = adventuring.7 } }
+		}
+
+	}
+
+	#parents are informed their child is going adventuring#
+	character_event = {
+		id = adventuring.3
+		title = EVTTITadventuring.3
+		desc = EVTDESCadventuring.3
+		picture = "GFX_evt_son_asking_father"
+	
+		is_triggered_only = yes
+
+		option = {
+			name = EVTOPTAadventuring.3
+		}
+
+		option = {
+			name = EVTOPTBadventuring.3
+			trigger = { ai = no }
+			FROM = { character_event = { id = adventuring.4 } }
+		}
+
+	}
+
+	#child is informed parents reject the plan#
+	character_event = {
+		id = adventuring.4
+		title = EVTTITadventuring.4
+		desc = EVTDESCadventuring.4
+		picture = "GFX_evt_son_asking_father"
+	
+		is_triggered_only = yes
+
+		option = {
+			name = EVTOPTAadventuring.4
+			FROM = { character_event = { id = adventuring.5 } }
+			reverse_opinion = {
+				modifier = opinion_adventuring_foe
+				who = FROM
+				years = 40
+			}
+		}
+
+		option = {
+			name = EVTOPTBadventuring.4
+			remove_trait = adventuring
+			FROM = { character_event = { id = adventuring.6 } }
+		}
+
+	}
+
+	#parents informed of rejection#
+	character_event = {
+		id = adventuring.5
+		title = EVTTITadventuring.5
+		desc = EVTDESCadventuring.5
+		picture = "GFX_evt_son_asking_father"
+	
+		is_triggered_only = yes
+
+		option = {
+			name = EVTOPTAadventuring.5
+			reverse_opinion = {
+				modifier = opinion_adventuring_foe
+				who = FROM
+				years = 40
+			}
+		}
+
+		option = {
+			name = EVTOPTBadventuring.5
+			FROM = { remove_trait = adventuring }
+			FROM = { imprison = ROOT }
+			FROM = { character_event = { id = adventuring.6 } }
+		}
+
+	}
+
+	#parents informed of acceptance#
+	character_event = {
+		id = adventuring.6
+		title = EVTTITadventuring.6
+		desc = EVTDESCadventuring.6
+		picture = "GFX_evt_son_asking_father"
+	
+		is_triggered_only = yes
+
+		option = {
+			name = EVTOPTAadventuring.6
+			reverse_opinion = {
+				modifier = opinion_adventuring_foe
+				who = FROM
+				years = 40
+			}
+		}
+
+	}
+
+	character_event = {
+		id = adventuring.7
+		title = EVTTITadventuring.7
+		desc = EVTDESCadventuring.7
+		picture = "GFX_evt_recovery" 
+	
+		is_triggered_only = yes
+	
+		option = {
+			name = EVTOPTAadventuring.7
+		}
+	
+		option = {
+			name = EVTOPTBadventuring.7
+		}
+	
+		option = {
+			name = EVTOPTCadventuring.7
+		}
+	
+	}
+	
+	##inform people when someone becomes a master##
+	##first set character flag for those who are only trained##
+	character_event = {
+		id = adventuring.8
+		title = EVTTITadventuring.8
+		desc = EVTDESCadventuring.8
+		picture = "GFX_evt_feast" 
+
+	
+		trigger={
+			age = 15
+			NOT = { has_character_flag = adventuring8 }
+			OR = {
+				trait = good_rider
+				trait = orc_warrior
+				trait = trained_elf
+				trait = mumakil_groom
+				trait = trained_dwarf
+				trait = dunedain_ranger
+				trait = skilled_bowman
+			}
+		}
+	
+		mean_time_to_happen = {
+			days = 7
+		}
+	
+		option = {
+			name = EVTOPTAadventuring.8
+			set_character_flag = adventuring8
+		}
+	
+	}
+	
+	##message when becoming master##
+	character_event = {
+		id = adventuring.9
+		title = EVTTITadventuring.9
+		desc = EVTDESCadventuring.9
+		picture = "GFX_evt_feast" 
+	
+		trigger = {
+			age = 15
+			has_character_flag = adventuring8
+			NOT = { has_character_flag = adventuring9 }
+			OR = {
+				trait = great_rider
+				trait = strong_orc
+				trait = great_elf
+				trait = mumakil_rider
+				trait = great_axeman
+				trait = dunedain_captain
+				trait = great_bowman
+			}
+		}
+	
+		mean_time_to_happen = {
+			days = 7
+		}
+	
+		option = {
+			name = EVTOPTAadventuring.9
+			set_character_flag = adventuring9
+			any_playable_ruler = {
+				limit = { 
+					AND = {
+						ai = no
+						NOT = { has_character_flag = adventuring.10 }
+						age = 1
+					}
+				}
+				character_event = { id = adventuring.10 }
+			}
+		}
+	}
+	
+	##world is informed  when becoming master##
+	character_event = {
+		id = adventuring.10
+		title = EVTTITadventuring.10
+		desc = EVTDESCadventuring.10
+		picture = "GFX_evt_feast" 
+	
+		is_triggered_only = yes
+	
+		option = {
+			name = EVTOPTAadventuring.10
+		}
+	
+		option = {
+			name = EVTOPTBadventuring.10
+			set_character_flag = adventuring.10
+		}
+	}
+	
+	##option to retire when becoming master##
+	character_event = {
+		id = adventuring.11
+		title = EVTTITadventuring.11
+		desc = EVTDESCadventuring.11
+		picture = "GFX_evt_feast" 
+
+	
+		trigger = {
+			age = 15
+			has_character_flag = adventuring8
+			has_character_flag = adventuring9
+			NOT = { has_character_flag = adventuring.11 }
+			OR = {
+				trait = great_rider
+				trait = strong_orc
+				trait = great_elf
+				trait = mumakil_rider
+				trait = great_axeman
+				trait = dunedain_captain
+				trait = great_bowman
+			}
+		}
+	
+		mean_time_to_happen = {
+			days = 90
+		}
+	
+		option = {
+			name = EVTOPTAadventuring.11
+			trigger = {
+				NOT = {
+					AND = {
+						trait = ambitious
+						trait = brave
+						ai = no
+					}
+				}
+			}
+			remove_trait = adventuring
+			remove_trait = on_current_quest
+			set_character_flag = adventuring.11
+			set_character_flag = retired
+		}
+	
+		option = {
+			name = EVTOPTBadventuring.11
+			trigger = {
+				AND = {
+					ai = yes
+					trait = ambitious
+					trait = brave
+				}
+			}
+			set_character_flag = adventuring.11
+		}
+	
+		option = {
+			name = EVTOPTCadventuring.11
+			trigger = { ai = no }
+			remove_trait = adventuring
+			remove_trait = on_current_quest
+			set_character_flag = adventuring.11
+		}
+	
+		option = {
+			name = EVTOPTDadventuring.11
+			trigger = { ai = no }
+		}
+	
+	}
+	
+	##message when becoming master##
+	character_event = {
+		id = adventuring.12
+		title = EVTTITadventuring.12
+		desc = EVTDESCadventuring.12
+		picture = "GFX_evt_feast" 
+	
+		trigger={
+			age = 15
+			has_character_flag = adventuring8
+			has_character_flag = adventuring9
+			NOT = { has_character_flag = adventuring12 }
+			OR = {
+				trait = horse_master
+				trait = great_orc
+				trait = legendary_warrior
+				trait = mumakil_commander
+				trait = dragon_slayer
+				trait = grey_member
+				trait = master_bowman
+				trait = amroth_knight
+			}	
+		}
+	
+		mean_time_to_happen = {
+			days = 7
+		}
+	
+		option = {
+			name = EVTOPTAadventuring.12
+			set_character_flag = adventuring12
+			any_playable_ruler = {
+				limit = { 
+					AND = {
+						ai = no
+						NOT = { has_character_flag = adventuring.13 }
+						age = 1
+					}
+				}
+				character_event = { id = adventuring.13 }
+			}
+		}
+	}
+	
+	##world is informed  when becoming master##
+	character_event = {
+		id = adventuring.13
+		title = EVTTITadventuring.13
+		desc = EVTDESCadventuring.13
+		picture = "GFX_evt_feast" 
+	
+		is_triggered_only = yes
+	
+		option = {
+			name = EVTOPTAadventuring.14
+		}
+	
+		option = {
+			name = EVTOPTBadventuring.14
+			set_character_flag = adventuring.13
+		}
+	}
+	
+	##option to retire when becoming legend##
+	character_event = {
+		id = adventuring.14
+		title = EVTTITadventuring.14
+		desc = EVTDESCadventuring.14
+		picture = "GFX_evt_feast" 
+
+		trigger = {
+			age = 15
+			has_character_flag = adventuring8
+			has_character_flag = adventuring9
+			has_character_flag = adventuring.11
+			NOT = { has_character_flag = adventuring.14 }
+			OR = {
+				trait = horse_master
+				trait = great_orc
+				trait = legendary_warrior
+				trait = mumakil_commander
+				trait = dragon_slayer
+				trait = grey_member
+				trait = master_bowman
+				trait = amroth_knight
+			}
+		}
+	
+		mean_time_to_happen = {
+			days = 90
+		}
+	
+		option = {
+			name = EVTOPTAadventuring.14
+			remove_trait = adventuring
+			remove_trait = on_current_quest
+			set_character_flag = adventuring.14
+			set_character_flag = retired
+		}
+	
+		option = {
+			name = EVTOPTBadventuring.14
+			trigger = {	ai = no }
+			set_character_flag = adventuring.14
+		}
+	
+	}
+	
