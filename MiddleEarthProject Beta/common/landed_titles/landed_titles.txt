@@ -8173,6 +8173,29 @@ k_mirkwood = {
 			b_minas_galenas = {
 			}
 		}
+		c_north_east_mirkwood = {
+			color={ 54 80 26 }
+			color2={ 255 255 255 }
+		
+			
+			b_celebannon = {
+			}
+			b_elanor = {
+			}
+			b_celodimlad = {
+			}
+			b_lond_alagos = {
+			}
+			b_ostlaer = {
+			}
+		}
+	}
+	d_north_mirkwood = {
+			color={ 126 224 41 }
+			color2={ 255 255 255 }
+			
+		capital = 327 # North Mirkwood
+			
 		c_north_mirkwood = {
 			color={ 166 214 114 }
 			color2={ 255 255 255 }
@@ -8203,13 +8226,6 @@ k_mirkwood = {
 			b_ast_amrûn = {
 			}
 		}
-	}	
-	d_emyn_lasgalen = {
-		color={ 181 198 131 }
-		color2={ 255 255 255 }
-		
-		capital = 324 #Emyn Lasgalen
-	
 		c_forestweb = {
 			color={ 92 152 219 }
 			color2={ 255 255 255 }
@@ -8225,6 +8241,13 @@ k_mirkwood = {
 			b_caras_gwi = {
 			}
 		}
+	}	
+	d_emyn_lasgalen = {
+		color={ 181 198 131 }
+		color2={ 255 255 255 }
+		
+		capital = 324 #Emyn Lasgalen
+	
 		c_mountains_of_mirkwood = {
 			color={ 91 113 68 }
 			color2={ 255 255 255 }
@@ -8238,22 +8261,6 @@ k_mirkwood = {
 			b_taeg_gorf = {
 			}
 			b_caras_tafelas = {
-			}
-		}
-		c_north_east_mirkwood = {
-			color={ 54 80 26 }
-			color2={ 255 255 255 }
-		
-			
-			b_celebannon = {
-			}
-			b_elanor = {
-			}
-			b_celodimlad = {
-			}
-			b_lond_alagos = {
-			}
-			b_ostlaer = {
 			}
 		}
 		c_west_forest_road = {
