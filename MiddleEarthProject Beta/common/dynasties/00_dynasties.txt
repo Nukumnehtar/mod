@@ -526,6 +526,14 @@
                   name="Pen-Arduin"
                   culture = culture_gondorian
 }
+183 = { 
+                  name="Talionath"
+                  culture = culture_gondorian_middlemen
+}
+184 = { 
+                  name="Hirgonionath"
+                  culture = culture_gondorian
+}
 
 #Arnorian
 

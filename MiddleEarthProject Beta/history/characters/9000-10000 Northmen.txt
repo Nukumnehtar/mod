@@ -1498,9 +1498,6 @@
 	10278.1.1={
 		birth="10278.1.1"
 	}
-	10310.1.1={
-		add_spouse=9274
-	}
 	10367.1.1={
 		death="10367.1.1"
 	}
@@ -1511,7 +1508,6 @@
 	religion="religion_rhovanion"
 	culture="culture_dorwinrim"
 	father=9108
-	mother=9274
 	10317.1.1={
 		birth="10317.1.1"
 	}
@@ -1850,8 +1846,11 @@
 	religion="religion_rhovanion"
 	culture="culture_dorwinrim"
 	father=9134
-	11292.1.1={
-		birth="11292.1.1"
+	11280.1.1={
+		birth="11280.1.1"
+	}
+	10303.1.1={
+		add_spouse=9274
 	}
 	11362.2.1={
 		death="11362.2.1"
@@ -1863,6 +1862,7 @@
 	religion="religion_rhovanion"
 	culture="culture_dorwinrim"
 	father=9135
+	mother=9274
 	11329.1.1={
 		birth="11329.1.1"
 	}
